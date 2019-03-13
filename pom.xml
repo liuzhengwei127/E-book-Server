@@ -32,6 +32,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>E-book</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
