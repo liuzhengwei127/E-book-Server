@@ -67,6 +67,12 @@ public class EBookApplicationTests {
 	@Autowired
 	private UserService userSerivce;
 
+	@Before
+	public void setUp() {
+		// 准备，清空user表
+		userSerivce.deleteAllUsers();
+	}
+
 	@Test
 	public void test() throws Exception {
 		// 插入2个用户

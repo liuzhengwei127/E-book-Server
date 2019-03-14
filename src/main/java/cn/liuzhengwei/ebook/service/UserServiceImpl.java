@@ -19,4 +19,9 @@ public class UserServiceImpl implements UserService {
     public Integer getAllUsers() {
         return jdbcTemplate.queryForObject("select count(1) from USERS", Integer.class);
     }
+
+    @Override
+    public void deleteAllUsers() {
+        jdbcTemplate.update("delete from USERS");
+    }
 }

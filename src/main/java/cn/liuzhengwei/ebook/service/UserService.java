@@ -14,4 +14,9 @@ public interface UserService {
      * 获取用户总量
      */
     Integer getAllUsers();
+
+    /**
+     * 删除所有用户
+     */
+    void deleteAllUsers();
 }
