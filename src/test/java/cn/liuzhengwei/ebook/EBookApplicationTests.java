@@ -1,6 +1,7 @@
 package cn.liuzhengwei.ebook;
 
 import cn.liuzhengwei.ebook.service.Properties;
+import cn.liuzhengwei.ebook.service.UserService;
 import cn.liuzhengwei.ebook.web.HelloController;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class EBookApplicationTests {
 
-	private MockMvc mvc;
+	/*private MockMvc mvc;
 
 	@Before
 	public void setUp() throws Exception {
@@ -61,5 +62,18 @@ public class EBookApplicationTests {
 		log.info("随机10以下 : " + properties.getTest1());
 		log.info("随机10-20 : " + properties.getTest2());
 
+	}*/
+
+	@Autowired
+	private UserService userSerivce;
+
+	@Test
+	public void test() throws Exception {
+		// 插入2个用户
+		userSerivce.create("testing", "123", "测试者");
+		userSerivce.create("lzw", "123", "柳寄书");
+
+		// 查数据库，应该有2个用户
+		Assert.assertEquals(2, userSerivce.getAllUsers().intValue());
 	}
 }
