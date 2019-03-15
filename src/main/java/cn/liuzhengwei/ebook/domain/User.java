@@ -1,5 +1,6 @@
 package cn.liuzhengwei.ebook.domain;
 
+//User实体定义
 public class User {
 
     private String account;

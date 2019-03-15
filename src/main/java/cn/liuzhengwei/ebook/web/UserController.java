@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+//数据库中关于user表的Restful api
 @RestController
 @RequestMapping(value="/user")
 public class UserController {
 
+    // 创建连接数据库的接口实例
     @Autowired
     private UserService userservice;
+
+    // 监听'/user/signup',接受json参数 并将用户信息写入数据库中
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signUp(@RequestBody User user){
         userservice.create(user.getAccount(),user.getPassword(),user.getName());

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+//连接数据库User表的的具体实现类
 @Service
 public class UserServiceImpl implements UserService {
 

@@ -1,5 +1,6 @@
 package cn.liuzhengwei.ebook.service;
 
+//连接数据库User表的的抽象类
 public interface UserService {
 
     /**

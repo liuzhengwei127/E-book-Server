@@ -3,6 +3,7 @@ package cn.liuzhengwei.ebook.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+// just for testing some function
 @Component
 public class Properties {
 
