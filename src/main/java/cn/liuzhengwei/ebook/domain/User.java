@@ -6,6 +6,24 @@ public class User {
     private String account;
     private String password;
     private String name;
+    private Boolean allowed;
+    private Boolean ismanager;
+
+    public Boolean getAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(Boolean allowed) {
+        this.allowed = allowed;
+    }
+
+    public Boolean getIsmanager() {
+        return ismanager;
+    }
+
+    public void setIsmanager(Boolean ismanager) {
+        this.ismanager = ismanager;
+    }
 
     public String getAccount() {
         return account;

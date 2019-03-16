@@ -1,5 +1,6 @@
 package cn.liuzhengwei.ebook;
 
+import cn.liuzhengwei.ebook.domain.LoginState;
 import cn.liuzhengwei.ebook.service.Properties;
 import cn.liuzhengwei.ebook.service.UserService;
 import cn.liuzhengwei.ebook.web.HelloController;
@@ -7,6 +8,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,20 +68,48 @@ public class EBookApplicationTests {
 
 	@Autowired
 	private UserService userSerivce;
+	private LoginState loginState;
 
-	@Before
-	public void setUp() {
+	@Test
+	public void testCreate() throws Exception {
 		// 准备，清空user表
 		userSerivce.deleteAllUsers();
+
+		// 插入2个用户
+		userSerivce.create("testing", "123", "测试者", true, false);
+		userSerivce.create("manager", "123", "管理员", true, true);
+		userSerivce.create("banned", "123", "禁用者", false, false);
+
+		Assert.assertEquals(3, userSerivce.getAllUsers().intValue());
 	}
 
 	@Test
-	public void test() throws Exception {
-		// 插入2个用户
-		userSerivce.create("testing", "123", "测试者");
-		userSerivce.create("lzw", "123", "柳寄书");
+	public void testGetUserState() throws Exception {
+		//查找用户testing
+		loginState = userSerivce.getUserState("testing","123");
+		Assert.assertEquals(true, loginState.getLogin());
+		Assert.assertEquals(0,loginState.getCode().intValue());
+		Assert.assertEquals("测试者", loginState.getName());
 
-		// 查数据库，应该有2个用户
-		Assert.assertEquals(2, userSerivce.getAllUsers().intValue());
+		//查找用户manager
+		loginState = userSerivce.getUserState("manager","123");
+		Assert.assertEquals(true, loginState.getLogin());
+		Assert.assertEquals(1,loginState.getCode().intValue());
+		Assert.assertEquals("管理员", loginState.getName());
+
+		//查找用户banned
+		loginState = userSerivce.getUserState("banned","123");
+		Assert.assertEquals(false, loginState.getLogin());
+		Assert.assertEquals(2,loginState.getCode().intValue());
+
+		//密码错误
+		loginState = userSerivce.getUserState("banned","12");
+		Assert.assertEquals(false, loginState.getLogin());
+		Assert.assertEquals(1,loginState.getCode().intValue());
+
+		//用户不存在
+		loginState = userSerivce.getUserState("none","123");
+		Assert.assertEquals(false, loginState.getLogin());
+		Assert.assertEquals(0,loginState.getCode().intValue());
 	}
 }
