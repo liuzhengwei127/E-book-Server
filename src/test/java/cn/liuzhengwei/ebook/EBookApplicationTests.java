@@ -1,6 +1,7 @@
 package cn.liuzhengwei.ebook;
 
 import cn.liuzhengwei.ebook.domain.LoginState;
+import cn.liuzhengwei.ebook.domain.User;
 import cn.liuzhengwei.ebook.service.Properties;
 import cn.liuzhengwei.ebook.service.UserService;
 import cn.liuzhengwei.ebook.web.HelloController;
@@ -84,32 +85,55 @@ public class EBookApplicationTests {
 	}
 
 	@Test
-	public void testGetUserState() throws Exception {
+	public void testGetUser() throws Exception {
+		User user = userSerivce.getUser("testing");
+		Assert.assertEquals("测试者", user.getName());
+	}
+
+	@Test
+	public void testGetLoginState() throws Exception {
 		//查找用户testing
-		loginState = userSerivce.getUserState("testing","123");
+		loginState = userSerivce.getLoginState("testing","123");
+		System.out.println(loginState.getMessage());
 		Assert.assertEquals(true, loginState.getLogin());
 		Assert.assertEquals(0,loginState.getCode().intValue());
 		Assert.assertEquals("测试者", loginState.getName());
 
 		//查找用户manager
-		loginState = userSerivce.getUserState("manager","123");
+		loginState = userSerivce.getLoginState("manager","123");
 		Assert.assertEquals(true, loginState.getLogin());
 		Assert.assertEquals(1,loginState.getCode().intValue());
 		Assert.assertEquals("管理员", loginState.getName());
 
 		//查找用户banned
-		loginState = userSerivce.getUserState("banned","123");
+		loginState = userSerivce.getLoginState("banned","123");
 		Assert.assertEquals(false, loginState.getLogin());
 		Assert.assertEquals(2,loginState.getCode().intValue());
 
 		//密码错误
-		loginState = userSerivce.getUserState("banned","12");
+		loginState = userSerivce.getLoginState("banned","12");
 		Assert.assertEquals(false, loginState.getLogin());
 		Assert.assertEquals(1,loginState.getCode().intValue());
 
 		//用户不存在
-		loginState = userSerivce.getUserState("none","123");
+		loginState = userSerivce.getLoginState("none","123");
 		Assert.assertEquals(false, loginState.getLogin());
 		Assert.assertEquals(0,loginState.getCode().intValue());
+	}
+
+	@Test
+	public void testBanUser() throws Exception {
+		userSerivce.create("testing1", "123", "测试者1", true, false);
+		userSerivce.banUser("testing1");
+		User user = userSerivce.getUser("testing1");
+		Assert.assertEquals(false, user.getAllowed());
+	}
+
+	@Test
+	public void testAllowUser() throws Exception {
+		userSerivce.create("testing2", "123", "测试者2", false, false);
+		userSerivce.allowUser("testing2");
+		User user = userSerivce.getUser("testing2");
+		Assert.assertEquals(true, user.getAllowed());
 	}
 }

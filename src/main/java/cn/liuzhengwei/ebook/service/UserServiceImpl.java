@@ -39,11 +39,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginState getUserState(String account, String password) {
+    public User getUser(String account) throws Exception {
+        RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
+        List<User> users;
+
+        users = jdbcTemplate.query("select * from USERS where account='"+account+"'", rowMapper);
+        if (users.size() != 1) {
+            Exception e = new Exception("数据库数据错误");
+            throw e;
+        }
+
+        return users.get(0);
+    }
+
+    @Override
+    public LoginState getLoginState(String account, String password) {
         LoginState state = new LoginState();
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
-
         List<User> users;
+
         users = jdbcTemplate.query("select * from USERS where account='"+account+"' and password='"+password+"'", rowMapper);
 
         if (users.size() <= 0){
@@ -84,5 +98,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return state;
+    }
+
+    @Override
+    public void banUser(String account) {
+        jdbcTemplate.update("update USERS set allowed=false where account='"+account+"'");
+    }
+
+    @Override
+    public void allowUser(String account) {
+        jdbcTemplate.update("update USERS set allowed=true where account='"+account+"'");
     }
 }

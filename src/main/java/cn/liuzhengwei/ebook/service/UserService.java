@@ -1,6 +1,7 @@
 package cn.liuzhengwei.ebook.service;
 
 import cn.liuzhengwei.ebook.domain.LoginState;
+import cn.liuzhengwei.ebook.domain.User;
 
 //连接数据库User表的的抽象类
 public interface UserService {
@@ -15,6 +16,15 @@ public interface UserService {
     //删除所有用户
     void deleteAllUsers();
 
+    //获取单个用户数据
+    public User getUser(String account) throws Exception;
+
     //判断用户状态
-    LoginState getUserState(String account, String password);
+    LoginState getLoginState(String account, String password);
+
+    //禁用用户
+    void banUser(String account);
+
+    //解禁用户
+    void allowUser(String account);
 }
