@@ -22,4 +22,39 @@ public class EBookApplicationTests {
 		List<Book> books = bookSerivce.getBooks();
 		Assert.assertEquals(3, books.size());
 	}
+
+	@Test
+	public void testAddBook() throws Exception{
+		Book book = new Book();
+		book.setAuthor("韩寒");
+		book.setName("他的国");
+		book.setISBN("2222");
+		book.setOutline("hehehe");
+		book.setPrice(12);
+		book.setStock(12);
+		bookSerivce.addBook(book);
+		book = bookSerivce.getBook("2222");
+		Assert.assertEquals("2222",book.getISBN());
+		bookSerivce.deleteBook("2222");
+	}
+
+	@Test
+	public void testModifyBook() {
+		Book book = new Book();
+		book.setAuthor("韩寒");
+		book.setName("他的国");
+		book.setISBN("2222");
+		book.setOutline("hehehe");
+		book.setPrice(12);
+		book.setStock(12);
+		bookSerivce.addBook(book);
+		Assert.assertEquals(12, book.getPrice().intValue());
+		Assert.assertEquals("他的国", book.getName());
+		book.setPrice(22);
+		book.setName("测试");
+		book = bookSerivce.modifyBook(book);
+		Assert.assertEquals(22, book.getPrice().intValue());
+		Assert.assertEquals("测试", book.getName());
+		bookSerivce.deleteBook("2222");
+	}
 }

@@ -17,7 +17,7 @@ public interface UserService {
     void deleteAllUsers();
 
     //获取单个用户数据
-    public User getUser(String account) throws Exception;
+    User getUser(String account) throws Exception;
 
     //判断用户状态
     LoginState getLoginState(String account, String password);
