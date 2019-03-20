@@ -7,6 +7,7 @@ public class Book {
     private String ISBN;
     private String outline;
     private Integer stock;
+    private Double price;
 
     public String getName() {
         return name;
@@ -48,13 +49,11 @@ public class Book {
         this.stock = stock;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
-
-    private Integer price;
 }
