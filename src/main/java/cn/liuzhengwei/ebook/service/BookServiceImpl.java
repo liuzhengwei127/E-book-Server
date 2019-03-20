@@ -14,6 +14,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // 获取所有书籍
     @Override
     public List<Book> getBooks() {
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
@@ -22,12 +23,14 @@ public class BookServiceImpl implements BookService {
         return books;
     }
 
+    // 添加书籍
     @Override
     public void addBook(Book book) {
         jdbcTemplate.update("insert into BOOKS(NAME, AUTHOR, ISBN, OUTLINE, STOCK, PRICE) values(?, ?, ?, ?, ?, ?)",
                 book.getName(), book.getAuthor(), book.getISBN(), book.getOutline(), book.getStock(), book.getPrice());
     }
 
+    // 查找书籍
     @Override
     public Book getBook(String ISBN) throws Exception{
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
@@ -40,6 +43,7 @@ public class BookServiceImpl implements BookService {
         return books.get(0);
     }
 
+    // 删除书籍
     @Override
     public Book deleteBook(String ISBN) {
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
@@ -50,6 +54,7 @@ public class BookServiceImpl implements BookService {
         return books.get(0);
     }
 
+    // 修改书籍
     @Override
     public Book modifyBook(Book book) {
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);

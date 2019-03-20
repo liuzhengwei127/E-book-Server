@@ -17,27 +17,29 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    //新增一个用户
     @Override
     public void create(String account, String password, String name) {
         jdbcTemplate.update("insert into USERS(ACCOUNT, PASSWORD, NAME, ALLOWED, ISMANAGER) values(?, ?, ?, ?, ?)", account, password, name, true, false);
     }
-
     @Override
     public void create(String account, String password, String name, Boolean allowed, Boolean isManager) {
         jdbcTemplate.update("insert into USERS(ACCOUNT, PASSWORD, NAME, ALLOWED, ISMANAGER) values(?, ?, ?, ?, ?)", account, password, name, allowed, isManager);
     }
 
-
+    //获取用户总量
     @Override
     public Integer getAllUsers() {
         return jdbcTemplate.queryForObject("select count(1) from USERS", Integer.class);
     }
 
+    //删除所有用户
     @Override
     public void deleteAllUsers() {
         jdbcTemplate.update("delete from USERS");
     }
 
+    //获取单个用户数据
     @Override
     public User getUser(String account) throws Exception {
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
@@ -52,6 +54,7 @@ public class UserServiceImpl implements UserService {
         return users.get(0);
     }
 
+    //判断用户状态
     @Override
     public LoginState getLoginState(String account, String password) {
         LoginState state = new LoginState();
@@ -100,11 +103,13 @@ public class UserServiceImpl implements UserService {
         return state;
     }
 
+    //禁用用户
     @Override
     public void banUser(String account) {
         jdbcTemplate.update("update USERS set allowed=false where account='"+account+"'");
     }
 
+    //解禁用户
     @Override
     public void allowUser(String account) {
         jdbcTemplate.update("update USERS set allowed=true where account='"+account+"'");
