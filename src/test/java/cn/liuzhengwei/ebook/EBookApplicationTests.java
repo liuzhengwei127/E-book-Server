@@ -1,60 +1,52 @@
 package cn.liuzhengwei.ebook;
 
-import cn.liuzhengwei.ebook.domain.Book;
-import cn.liuzhengwei.ebook.service.BookService;
+import cn.liuzhengwei.ebook.domain.Order;
+import cn.liuzhengwei.ebook.service.OrderService;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EBookApplicationTests {
 	@Autowired
-	private BookService bookSerivce;
+	private OrderService orderService;
 
+	@Ignore
 	@Test
-	public void testGetBooks() {
-		List<Book> books = bookSerivce.getBooks();
-		Assert.assertEquals(4, books.size());
+	public void testAddOrder() {
+		Order order = new Order();
+		List<Order> gets;
+		Timestamp date = new Timestamp(new Date().getTime());
+		order.setAccount("testing");
+		order.setCount(1);
+		order.setISBN("123");
+		order.setDate(date);
+		orderService.addOrder(order);
+		gets = orderService.getOrder("testing");
+		Assert.assertEquals("123",gets.get(0).getISBN());
 	}
 
 	@Test
-	public void testAddBook() throws Exception{
-		Book book = new Book();
-		book.setAuthor("韩寒");
-		book.setName("他的国");
-		book.setISBN("2222");
-		book.setOutline("hehehe");
-		book.setPrice(12.0);
-		book.setStock(12);
-		bookSerivce.addBook(book);
-		book = bookSerivce.getBook("2222");
-		Assert.assertEquals("2222",book.getISBN());
-		bookSerivce.deleteBook("2222");
+	public void testGetAllOrders() {
+		List<Order> orders;
+		orders = orderService.getAllOrders();
+		Assert.assertEquals("testing",orders.get(0).getAccount());
 	}
 
 	@Test
-	public void testModifyBook() {
-		Book book = new Book();
-		book.setAuthor("韩寒");
-		book.setName("他的国");
-		book.setISBN("2222");
-		book.setOutline("hehehe");
-		book.setPrice(12.0);
-		book.setStock(12);
-		bookSerivce.addBook(book);
-		Assert.assertEquals(12, book.getPrice().doubleValue(), 0.01);
-		Assert.assertEquals("他的国", book.getName());
-		book.setPrice(22.0);
-		book.setName("测试");
-		book = bookSerivce.modifyBook(book);
-		Assert.assertEquals(22.0, book.getPrice().doubleValue(), 0.01);
-		Assert.assertEquals("测试", book.getName());
-		bookSerivce.deleteBook("2222");
+	public void testGetOrder() {
+		String account = "testing";
+		List<Order> orders;
+		orders = orderService.getOrder(account);
+		Assert.assertEquals("123", orders.get(0).getISBN());
 	}
 }
