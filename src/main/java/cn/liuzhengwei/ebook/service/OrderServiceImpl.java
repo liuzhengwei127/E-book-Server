@@ -24,7 +24,7 @@ public class OrderServiceImpl implements OrderService{
             id = 0;
         }
 
-        jdbcTemplate.update("insert into ORDERS(ID, ACCOUNT, ISBN, COUNT, DATE) values(?, ?, ?, ?, ?)",
+        jdbcTemplate.update("insert into ORDERS(ID, ACCOUNT, ISBN, COUNT, DATE) values(?, ?, ?, ?, ?i)",
                 id, order.getAccount(), order.getISBN(), order.getCount(), order.getDate());
     }
 
