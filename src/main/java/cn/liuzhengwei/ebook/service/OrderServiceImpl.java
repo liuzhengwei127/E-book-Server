@@ -15,6 +15,7 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // 添加订单
     @Override
     public void addOrder(Order order) {
         int id;
@@ -28,11 +29,13 @@ public class OrderServiceImpl implements OrderService{
                 id, order.getAccount(), order.getISBN(), order.getCount(), order.getDate());
     }
 
+    // 删除订单
     @Override
     public void deleteOrder(Integer id) {
         jdbcTemplate.update("delete from ORDERS where ID="+id);
     }
 
+    // 获取所有订单
     @Override
     public List<Order> getAllOrders() {
         RowMapper<Order> rowMapper = new BeanPropertyRowMapper<>(Order.class);
@@ -40,6 +43,7 @@ public class OrderServiceImpl implements OrderService{
         return orders;
     }
 
+    // 获取指定用户订单
     @Override
     public List<Order> getOrder(String account) {
         RowMapper<Order> rowMapper = new BeanPropertyRowMapper<>(Order.class);

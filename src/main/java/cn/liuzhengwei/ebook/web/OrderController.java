@@ -13,9 +13,11 @@ import java.util.List;
 @RequestMapping(value="/order")
 public class OrderController {
 
+    // 创建连接数据库的接口实例
     @Autowired
     private OrderService orderService;
 
+    // 监听'/order/get' 返回相应用户的订单数据
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     @ResponseBody
     public List<List<Order>> getOrder(@RequestBody String account) {
@@ -36,6 +38,7 @@ public class OrderController {
         return orders;
     }
 
+    // 监听'/order/getall' 返回所有用户的订单数据
     @RequestMapping(value = "/getall", method = RequestMethod.GET)
     @ResponseBody
     public OrderList getAllOrders() {
@@ -59,6 +62,7 @@ public class OrderController {
         return result;
     }
 
+    // 监听'/order/add' 添加订单，写入数据库
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public List<Order> addOrder(@RequestBody Order order) {

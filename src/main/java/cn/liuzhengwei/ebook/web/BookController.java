@@ -10,9 +10,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/book")
 public class BookController {
+
+    // 创建连接数据库的接口实例
     @Autowired
     private BookService bookService;
 
+    // 监听'/book/get' 返回所有书籍数据
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     @ResponseBody
     public List<Book> getBooks() {
@@ -20,6 +23,7 @@ public class BookController {
         return books;
     }
 
+    // 监听'/book/add' 添加书籍，写入数据库
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public Book addBook(@RequestBody Book book) throws Exception{
@@ -28,6 +32,7 @@ public class BookController {
         return result;
     }
 
+    // 监听'/book/modify' 修改相应书籍的相应数据
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ResponseBody
     public Book modifyBook(@RequestBody Book book) {
