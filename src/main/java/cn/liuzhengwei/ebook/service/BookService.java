@@ -8,6 +8,9 @@ public interface BookService {
     // 获取所有书籍
     List<Book> getBooks();
 
+    // 搜索书籍
+    List<Book> getBooks(String text);
+
     // 添加书籍
     void addBook(Book book);
 

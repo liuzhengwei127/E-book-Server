@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -20,6 +21,12 @@ public class BookServiceImpl implements BookService {
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
         List<Book> books;
         books = jdbcTemplate.query("select * from BOOKS", rowMapper);
+        return books;
+    }
+
+    // 搜索书籍
+    public List<Book> getBooks(String text){
+        List<Book> books = new LinkedList<>();
         return books;
     }
 
