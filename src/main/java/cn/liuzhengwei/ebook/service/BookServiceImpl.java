@@ -26,7 +26,9 @@ public class BookServiceImpl implements BookService {
 
     // 搜索书籍
     public List<Book> getBooks(String text){
-        List<Book> books = new LinkedList<>();
+        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
+        List<Book> books;
+        books = jdbcTemplate.query("select * from BOOKS where name like '%"+text+"%'", rowMapper);
         return books;
     }
 
