@@ -18,9 +18,15 @@ public class UserController {
     // 监听'/user/signup',接受json参数 并将用户信息写入数据库中
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
-    public User signUp(@RequestBody User user){
-        userservice.create(user.getAccount(),user.getPassword(),user.getName());
-        return user;
+    public User signUp(@RequestBody User user) {
+        User test = userservice.getUser(user.getAccount());
+        if (test.getAccount().length() > 0){
+            test = new User();
+            return test;
+        } else {
+            userservice.create(user.getAccount(),user.getPassword(),user.getName());
+            return user;
+        }
     }
 
     // 监听'/user/login',接受用户json参数 判断用户登录态并返回json

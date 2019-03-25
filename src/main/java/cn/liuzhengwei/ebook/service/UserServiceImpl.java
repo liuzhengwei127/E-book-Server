@@ -41,17 +41,19 @@ public class UserServiceImpl implements UserService {
 
     //获取单个用户数据
     @Override
-    public User getUser(String account) throws Exception {
+    public User getUser(String account) {
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
         List<User> users;
 
         users = jdbcTemplate.query("select * from USERS where account='"+account+"'", rowMapper);
-        if (users.size() != 1) {
-            Exception e = new Exception("数据库数据错误");
-            throw e;
-        }
 
-        return users.get(0);
+        if (users.size() > 0)
+            return users.get(0);
+        else {
+            User user = new User();
+            user.setAccount("");
+            return user;
+        }
     }
 
     //判断用户状态
