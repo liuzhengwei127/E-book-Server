@@ -9,7 +9,7 @@ public interface BookService {
     List<Book> getBooks();
 
     // 搜索书籍
-    List<Book> getBooks(String text);
+    List<Book> searchBooks(String text);
 
     // 添加书籍
     void addBook(Book book);

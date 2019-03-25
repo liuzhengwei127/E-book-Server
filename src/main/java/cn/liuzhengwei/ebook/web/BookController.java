@@ -23,6 +23,14 @@ public class BookController {
         return books;
     }
 
+    // 监听'/book/search' 接受一个参数 返回过滤后的书籍数据
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Book> searchBooks(@RequestParam("account") String account) {
+        List<Book> books= bookService.searchBooks(account);
+        return books;
+    }
+
     // 监听'/book/add' 添加书籍，写入数据库
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody

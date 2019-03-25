@@ -19,7 +19,7 @@ public class EBookApplicationTests {
 
 	@Test
 	public void testGetBook() {
-		List<Book> books = bookService.getBooks("生");
+		List<Book> books = bookService.searchBooks("生");
 		Assert.assertEquals("浮生六记", books.get(0).getName());
 	}
 }
