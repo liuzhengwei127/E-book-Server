@@ -2,6 +2,7 @@ package cn.liuzhengwei.ebook.service;
 
 import cn.liuzhengwei.ebook.domain.LoginState;
 import cn.liuzhengwei.ebook.domain.User;
+import cn.liuzhengwei.ebook.domain.UserState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -115,5 +116,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void allowUser(String account) {
         jdbcTemplate.update("update USERS set allowed=true where account='"+account+"'");
+    }
+
+    //获得所有用户状态
+    public List<UserState> getUserStates() {
+        List<UserState> userStates;
+        RowMapper<UserState> rowMapper = new BeanPropertyRowMapper<>(UserState.class);
+        userStates = jdbcTemplate.query("select ACCOUNT,NAME,ALLOWED from USERS", rowMapper);
+
+        return userStates;
     }
 }

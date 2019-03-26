@@ -2,9 +2,12 @@ package cn.liuzhengwei.ebook.web;
 
 import cn.liuzhengwei.ebook.domain.LoginState;
 import cn.liuzhengwei.ebook.domain.User;
+import cn.liuzhengwei.ebook.domain.UserState;
 import cn.liuzhengwei.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //数据库中关于user表的Restful api
 @RestController
@@ -40,7 +43,7 @@ public class UserController {
     // 监听'/user/switch',接受用户json参数 改变用户禁用态
     @RequestMapping(value = "/change", method = RequestMethod.POST)
     @ResponseBody
-    public User change(@RequestBody User user) throws Exception{
+    public User change(@RequestBody User user) {
         String account = user.getAccount();
         User userToChange = userservice.getUser(account);
         if (userToChange.getAllowed()) {
@@ -51,5 +54,12 @@ public class UserController {
 
         userToChange = userservice.getUser(account);
         return userToChange;
+    }
+
+    @RequestMapping(value = "/states", method = RequestMethod.GET)
+    @ResponseBody
+    public List<UserState> getUserStates() {
+        List<UserState> userStates = userservice.getUserStates();
+        return userStates;
     }
 }

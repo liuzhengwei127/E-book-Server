@@ -1,7 +1,7 @@
 package cn.liuzhengwei.ebook;
 
-import cn.liuzhengwei.ebook.domain.Book;
-import cn.liuzhengwei.ebook.service.BookService;
+import cn.liuzhengwei.ebook.domain.UserState;
+import cn.liuzhengwei.ebook.service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +15,11 @@ import java.util.List;
 @SpringBootTest
 public class EBookApplicationTests {
 	@Autowired
-	private BookService bookService;
+	private UserService userService;
 
 	@Test
 	public void testGetBook() {
-		List<Book> books = bookService.searchBooks("生");
-		Assert.assertEquals("浮生六记", books.get(0).getName());
+		List<UserState> userStates = userService.getUserStates();
+		Assert.assertEquals(3, userStates.size());
 	}
 }

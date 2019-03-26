@@ -2,6 +2,9 @@ package cn.liuzhengwei.ebook.service;
 
 import cn.liuzhengwei.ebook.domain.LoginState;
 import cn.liuzhengwei.ebook.domain.User;
+import cn.liuzhengwei.ebook.domain.UserState;
+
+import java.util.List;
 
 //连接数据库User表的的抽象类
 public interface UserService {
@@ -27,4 +30,7 @@ public interface UserService {
 
     //解禁用户
     void allowUser(String account);
+
+    //获得所有用户状态
+    List<UserState> getUserStates();
 }
