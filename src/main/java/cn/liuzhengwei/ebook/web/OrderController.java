@@ -2,11 +2,14 @@ package cn.liuzhengwei.ebook.web;
 
 import cn.liuzhengwei.ebook.domain.Order;
 import cn.liuzhengwei.ebook.domain.OrderList;
+import cn.liuzhengwei.ebook.domain.Orders;
 import cn.liuzhengwei.ebook.domain.User;
 import cn.liuzhengwei.ebook.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,9 +76,18 @@ public class OrderController {
     // 监听'/order/add' 添加订单，写入数据库
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public List<Order> addOrder(@RequestBody Order order) {
-        orderService.addOrder(order);
-        List<Order> result = orderService.getOrder(order.getAccount());
+    public List<Order> addOrder(@RequestBody Orders orders) {
+
+        int size = orders.getOrders().size();
+        for (int i=0;i<size;i++) {
+            Date date= new Date();
+            Timestamp timestamp = new Timestamp(date.getTime());
+            orders.getOrders().get(i).setDate(timestamp);
+        }
+
+        orderService.addOrder(orders.getOrders());
+
+        List<Order> result = orderService.getOrder(orders.getOrders().get(0).getAccount());
 
         return result;
     }

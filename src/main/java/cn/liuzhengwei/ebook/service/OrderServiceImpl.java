@@ -17,7 +17,7 @@ public class OrderServiceImpl implements OrderService{
 
     // 添加订单
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(List<Order> orders) {
         int id;
         try {
             id = jdbcTemplate.queryForObject("select max(ID) from ORDERS", Integer.class) + 1;
@@ -25,8 +25,10 @@ public class OrderServiceImpl implements OrderService{
             id = 0;
         }
 
-        jdbcTemplate.update("insert into ORDERS(ID, ACCOUNT, ISBN, COUNT, DATE) values(?, ?, ?, ?, ?i)",
-                id, order.getAccount(), order.getISBN(), order.getCount(), order.getDate());
+        for (int i=0;i<orders.size();i++) {
+            jdbcTemplate.update("insert into ORDERS(ID, ACCOUNT, ISBN, COUNT, DATE) values(?, ?, ?, ?, ?)",
+                    id, orders.get(i).getAccount(), orders.get(i).getISBN(), orders.get(i).getCount(), orders.get(i).getDate());
+        }
     }
 
     // 删除订单
