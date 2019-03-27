@@ -39,7 +39,13 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> getAllOrders() {
         RowMapper<Order> rowMapper = new BeanPropertyRowMapper<>(Order.class);
-        List<Order> orders = jdbcTemplate.query("select * from ORDERS",rowMapper);
+        List<Order> orders = jdbcTemplate.query("SELECT * " +
+                "FROM orders NATURAL JOIN " +
+                        "(SELECT name AS bookname,author,ISBN,price " +
+                            "FROM books) AS bookss " +
+                             "NATURAL JOIN " +
+                        "(SELECT name AS username,account " +
+                          "FROM users) AS users", rowMapper);
         return orders;
     }
 
@@ -47,7 +53,14 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> getOrder(String account) {
         RowMapper<Order> rowMapper = new BeanPropertyRowMapper<>(Order.class);
-        List<Order> orders = jdbcTemplate.query("select * from ORDERS where ACCOUNT='"+account+"'",rowMapper);
+        List<Order> orders = jdbcTemplate.query("SELECT * " +
+                                                        "FROM orders NATURAL JOIN " +
+                                                            "(SELECT name AS bookname,author,ISBN,price " +
+                                                                "FROM books) AS bookss " +
+                                                                    "NATURAL JOIN " +
+                                                            "(SELECT name AS username,account " +
+                                                                "FROM users) AS users " +
+                                                                    "WHERE account = '"+account+"'",rowMapper);
         return orders;
     }
 }

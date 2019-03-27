@@ -2,6 +2,7 @@ package cn.liuzhengwei.ebook.web;
 
 import cn.liuzhengwei.ebook.domain.Order;
 import cn.liuzhengwei.ebook.domain.OrderList;
+import cn.liuzhengwei.ebook.domain.User;
 import cn.liuzhengwei.ebook.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +21,26 @@ public class OrderController {
     // 监听'/order/get' 返回相应用户的订单数据
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     @ResponseBody
-    public List<List<Order>> getOrder(@RequestBody String account) {
+    public List<List<Order>> getOrder(@RequestBody User user) {
+        String account = user.getAccount();
         List<Order> orders_raw = orderService.getOrder(account);
         List<List<Order>> orders = new LinkedList<>();
         List<Order> list = new LinkedList<>();
-        int id = orders_raw.get(0).getId();
-        for (int i=0;i<orders_raw.size();i++){
-            if (orders_raw.get(i).getId() != id){
-                orders.add(list);
-                list = new LinkedList<>();
-                list.add(orders_raw.get(i));
-            } else {
-                list.add(orders_raw.get(i));
+
+        if (orders_raw.size() > 0) {
+            int id = orders_raw.get(0).getId();
+            for (int i=0;i<orders_raw.size();i++){
+                if (orders_raw.get(i).getId() != id){
+                    orders.add(list);
+                    list = new LinkedList<>();
+                    list.add(orders_raw.get(i));
+                    id = orders_raw.get(i).getId();
+                } else {
+                    list.add(orders_raw.get(i));
+                }
             }
         }
+        orders.add(list);
 
         return orders;
     }
@@ -51,6 +58,7 @@ public class OrderController {
                 orders.add(list);
                 list = new LinkedList<>();
                 list.add(orders_raw.get(i));
+                id = orders_raw.get(i).getId();
             } else {
                 list.add(orders_raw.get(i));
             }

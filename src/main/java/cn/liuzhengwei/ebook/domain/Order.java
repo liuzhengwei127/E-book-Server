@@ -7,9 +7,45 @@ public class Order {
 
     private Integer id;
     private String account;
+    private String userName;
+    private String bookname;
+    private String author;
     private String ISBN;
+    private Float price;
     private Integer count;
     private Timestamp date;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getBookname() {
+        return bookname;
+    }
+
+    public void setBookname(String bookname) {
+        this.bookname = bookname;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
 
     public Integer getId() {
         return id;
