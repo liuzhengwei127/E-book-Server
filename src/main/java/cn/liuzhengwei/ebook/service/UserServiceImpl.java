@@ -88,11 +88,13 @@ public class UserServiceImpl implements UserService {
                        state.setLogin(true);
                        state.setCode(1);
                        state.setName(user.getName());
+                       state.setAccount(user.getAccount());
                        state.setMessage("用户存在，为管理员");
                    } else {
                        state.setLogin(true);
                        state.setCode(0);
                        state.setName(user.getName());
+                       state.setAccount(user.getAccount());
                        state.setMessage("用户存在，为普通用户");
                    }
                } else {
