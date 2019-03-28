@@ -26,8 +26,8 @@ public class BookController {
     // 监听'/book/search' 接受一个参数 返回过滤后的书籍数据
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    public List<Book> searchBooks(@RequestParam("account") String account) {
-        List<Book> books= bookService.searchBooks(account);
+    public List<Book> searchBooks(@RequestParam("filter") String filter) {
+        List<Book> books= bookService.searchBooks(filter);
         return books;
     }
 

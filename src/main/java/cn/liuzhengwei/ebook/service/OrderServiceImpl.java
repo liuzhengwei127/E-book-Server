@@ -47,7 +47,8 @@ public class OrderServiceImpl implements OrderService{
                             "FROM books) AS bookss " +
                              "NATURAL JOIN " +
                         "(SELECT name AS username,account " +
-                          "FROM users) AS users", rowMapper);
+                          "FROM users) AS users " +
+                "ORDER BY id", rowMapper);
         return orders;
     }
 
