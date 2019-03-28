@@ -1,27 +1,22 @@
 package cn.liuzhengwei.ebook.web;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 
-@Controller
+@RestController
 public class SrcController {
     @RequestMapping(value="/upload", method = RequestMethod.POST)
     @ResponseBody
-    public String upload(@RequestParam("file") MultipartFile file,
-                     HttpServletRequest request) {
+    public String upload(@RequestParam("file") MultipartFile file) {
 
-        String contentType = file.getContentType();   //图片文件类型
-        String fileName = file.getOriginalFilename();  //图片名字
+        //传入图片文件名
+        String fileName = file.getOriginalFilename();
 
-        //文件存放路径
+        //图片写入路径
         String filePath = "C:\\Users\\75667\\Pictures\\ebook\\";
 
         //处理文件，将文件写入指定位置
@@ -36,7 +31,7 @@ public class SrcController {
             out.flush();
             out.close();
         } catch (Exception e) {
-            return "false";
+            return e.getMessage();
         }
 
         // 返回图片的存放路径
@@ -46,19 +41,22 @@ public class SrcController {
     @RequestMapping(value="/delete", method = RequestMethod.GET)
     @ResponseBody
     public String delete(@RequestParam("filename") String filename) {
-        String resultInfo;
+        String result;
         String path = "C:\\Users\\75667\\Pictures\\ebook\\"+filename;
         File file = new File(path);
+
+        //删除图片
         if (file.exists()) {
             if (file.delete()) {
-                resultInfo =  "删除成功";
+                result =  "删除成功";
             } else {
-                resultInfo =  "删除失败";
+                result =  "删除失败";
             }
         } else {
-            resultInfo = "文件不存在";
+            result = "文件不存在";
         }
 
-        return resultInfo;
+        //返回字符串形式结果
+        return result;
     }
 }
