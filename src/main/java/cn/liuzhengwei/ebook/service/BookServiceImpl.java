@@ -1,11 +1,13 @@
 package cn.liuzhengwei.ebook.service;
 
 import cn.liuzhengwei.ebook.domain.Book;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+
 
 import java.util.LinkedList;
 import java.util.List;
@@ -69,12 +71,14 @@ public class BookServiceImpl implements BookService {
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
         List<Book> books;
 
+
         jdbcTemplate.update("update BOOKS set NAME='"+book.getName()+"', " +
                 "AUTHOR='"+book.getAuthor()+"', " +
                 "ISBN='"+book.getISBN()+"', " +
                 "OUTLINE='"+book.getOutline()+"', " +
                 "STOCK="+book.getStock()+", " +
-                "PRICE="+book.getPrice()+" where ISBN='"+book.getISBN()+"'");
+                "PRICE="+book.getPrice()+", "+
+                "URL='"+StringEscapeUtils.escapeJava(book.getUrl())+"' where ISBN='"+book.getISBN()+"' ");
 
         books = jdbcTemplate.query("select * from BOOKS where ISBN='"+book.getISBN()+"'", rowMapper);
         return books.get(0);

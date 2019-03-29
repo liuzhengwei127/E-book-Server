@@ -16,7 +16,7 @@ public class SrcController {
         String fileName = file.getOriginalFilename();
 
         //图片写入路径
-        String filePath = "C:\\Users\\75667\\Pictures\\ebook\\";
+        String filePath = "C:\\Users\\75667\\vueProject\\E-book\\public\\images\\";
 
         //处理文件，将文件写入指定位置
         try {
@@ -41,7 +41,7 @@ public class SrcController {
     @ResponseBody
     public String delete(@RequestParam("filename") String filename) {
         String result;
-        String path = "C:\\Users\\75667\\Pictures\\ebook\\"+filename;
+        String path = "C:\\Users\\75667\\vueProject\\E-book\\public\\images\\"+filename;
         File file = new File(path);
 
         //删除图片
