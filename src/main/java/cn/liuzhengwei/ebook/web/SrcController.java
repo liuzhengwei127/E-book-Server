@@ -3,7 +3,6 @@ package cn.liuzhengwei.ebook.web;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -35,7 +34,7 @@ public class SrcController {
         }
 
         // 返回图片的存放路径
-        return filePath;
+        return filePath+fileName;
     }
 
     @RequestMapping(value="/delete", method = RequestMethod.GET)

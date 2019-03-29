@@ -7,7 +7,16 @@ public class Book {
     private String ISBN;
     private String outline;
     private Integer stock;
-    private Double price;
+    private Float price;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getName() {
         return name;
@@ -49,11 +58,11 @@ public class Book {
         this.stock = stock;
     }
 
-    public Double getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 }

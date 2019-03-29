@@ -35,8 +35,8 @@ public class BookServiceImpl implements BookService {
     // 添加书籍
     @Override
     public void addBook(Book book) {
-        jdbcTemplate.update("insert into BOOKS(NAME, AUTHOR, ISBN, OUTLINE, STOCK, PRICE) values(?, ?, ?, ?, ?, ?)",
-                book.getName(), book.getAuthor(), book.getISBN(), book.getOutline(), book.getStock(), book.getPrice());
+        jdbcTemplate.update("insert into BOOKS(NAME, AUTHOR, ISBN, OUTLINE, STOCK, PRICE, url) values(?, ?, ?, ?, ?, ?, ?)",
+                book.getName(), book.getAuthor(), book.getISBN(), book.getOutline(), book.getStock(), book.getPrice(), book.getUrl());
     }
 
     // 查找书籍
