@@ -11,9 +11,18 @@ public class Order {
     private String bookname;
     private String author;
     private String ISBN;
+    private String url;
     private Float price;
     private Integer count;
     private Timestamp date;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getUserName() {
         return userName;

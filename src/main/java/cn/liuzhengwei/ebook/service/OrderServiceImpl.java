@@ -26,8 +26,13 @@ public class OrderServiceImpl implements OrderService{
         }
 
         for (int i=0;i<orders.size();i++) {
-            jdbcTemplate.update("insert into ORDERS(ID, ACCOUNT, ISBN, COUNT, DATE) values(?, ?, ?, ?, ?)",
-                    id, orders.get(i).getAccount(), orders.get(i).getISBN(), orders.get(i).getCount(), orders.get(i).getDate());
+            int stock = jdbcTemplate.queryForObject("SELECT stock FROM books WHERE isbn='"+orders.get(i).getISBN()+"'", Integer.class);
+            stock = stock - orders.get(i).getCount();
+            if (stock >= 0) {
+                jdbcTemplate.update("UPDATE books SET stock="+stock+" WHERE isbn='"+orders.get(i).getISBN()+"'");
+                jdbcTemplate.update("insert into ORDERS(ID, ACCOUNT, ISBN, COUNT, DATE) values(?, ?, ?, ?, ?)",
+                        id, orders.get(i).getAccount(), orders.get(i).getISBN(), orders.get(i).getCount(), orders.get(i).getDate());
+            }
         }
     }
 
@@ -43,7 +48,7 @@ public class OrderServiceImpl implements OrderService{
         RowMapper<Order> rowMapper = new BeanPropertyRowMapper<>(Order.class);
         List<Order> orders = jdbcTemplate.query("SELECT * " +
                 "FROM orders NATURAL JOIN " +
-                        "(SELECT name AS bookname,author,ISBN,price " +
+                        "(SELECT name AS bookname,author,ISBN,price,url " +
                             "FROM books) AS bookss " +
                              "NATURAL JOIN " +
                         "(SELECT name AS username,account " +
@@ -58,12 +63,13 @@ public class OrderServiceImpl implements OrderService{
         RowMapper<Order> rowMapper = new BeanPropertyRowMapper<>(Order.class);
         List<Order> orders = jdbcTemplate.query("SELECT * " +
                                                         "FROM orders NATURAL JOIN " +
-                                                            "(SELECT name AS bookname,author,ISBN,price " +
+                                                            "(SELECT name AS bookname,author,ISBN,price,url " +
                                                                 "FROM books) AS bookss " +
                                                                     "NATURAL JOIN " +
                                                             "(SELECT name AS username,account " +
                                                                 "FROM users) AS users " +
-                                                                    "WHERE account = '"+account+"'",rowMapper);
+                                                                    "WHERE account = '"+account+"' " +
+                                                        "ORDER BY id", rowMapper);
         return orders;
     }
 }
