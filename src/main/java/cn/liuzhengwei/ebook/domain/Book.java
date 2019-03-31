@@ -5,10 +5,19 @@ public class Book {
     private String name;
     private String author;
     private String ISBN;
+    private String newisbn;
     private String outline;
     private Integer stock;
     private Float price;
     private String url;
+
+    public String getNewisbn() {
+        return newisbn;
+    }
+
+    public void setNewisbn(String newisbn) {
+        this.newisbn = newisbn;
+    }
 
     public String getUrl() {
         return url;

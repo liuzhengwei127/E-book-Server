@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
     public List<UserState> getUserStates() {
         List<UserState> userStates;
         RowMapper<UserState> rowMapper = new BeanPropertyRowMapper<>(UserState.class);
-        userStates = jdbcTemplate.query("select ACCOUNT,NAME,ALLOWED from USERS", rowMapper);
+        userStates = jdbcTemplate.query("select ACCOUNT,NAME,ALLOWED from USERScc`1` ", rowMapper);
 
         return userStates;
     }

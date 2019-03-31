@@ -70,17 +70,17 @@ public class BookServiceImpl implements BookService {
     public Book modifyBook(Book book) {
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
         List<Book> books;
-
+        String url = book.getUrl() == null ? "" : ", URL='"+StringEscapeUtils.escapeJava(book.getUrl())+"' ";
 
         jdbcTemplate.update("update BOOKS set NAME='"+book.getName()+"', " +
                 "AUTHOR='"+book.getAuthor()+"', " +
-                "ISBN='"+book.getISBN()+"', " +
+                "ISBN='"+book.getNewisbn()+"', " +
                 "OUTLINE='"+book.getOutline()+"', " +
                 "STOCK="+book.getStock()+", " +
-                "PRICE="+book.getPrice()+", "+
-                "URL='"+StringEscapeUtils.escapeJava(book.getUrl())+"' where ISBN='"+book.getISBN()+"' ");
+                "PRICE="+book.getPrice()+
+                url+" where ISBN='"+book.getISBN()+"' ");
 
-        books = jdbcTemplate.query("select * from BOOKS where ISBN='"+book.getISBN()+"'", rowMapper);
+        books = jdbcTemplate.query("select * from BOOKS where ISBN='"+book.getNewisbn()+"'", rowMapper);
         return books.get(0);
     }
 }
