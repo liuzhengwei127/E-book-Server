@@ -22,4 +22,7 @@ public interface BookService {
 
     // 修改书籍
     Book modifyBook(Book book);
+
+    // 获得书籍详细信息
+    Book getDetail(String ISBN);
 }

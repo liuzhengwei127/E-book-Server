@@ -47,4 +47,12 @@ public class BookController {
         Book result = bookService.modifyBook(book);
         return result;
     }
+
+    //
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    @ResponseBody
+    public Book modifyBook(@RequestParam("isbn") String ISBN) {
+        Book result = bookService.getDetail(ISBN);
+        return result;
+    }
 }

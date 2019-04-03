@@ -22,7 +22,7 @@ public class BookServiceImpl implements BookService {
     public List<Book> getBooks() {
         RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
         List<Book> books;
-        books = jdbcTemplate.query("select * from BOOKS", rowMapper);
+        books = jdbcTemplate.query("select name,author,ISBN,outline,stock,price,url from BOOKS", rowMapper);
         return books;
     }
 
@@ -44,14 +44,8 @@ public class BookServiceImpl implements BookService {
     // 查找书籍
     @Override
     public Book getBook(String ISBN) throws Exception{
-        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
-        List<Book> books;
-        books = jdbcTemplate.query("select * from BOOKS where ISBN = '"+ISBN+"'", rowMapper);
-        if (books.size() != 1) {
-            throw new Exception("数据库数据错误");
-        }
-
-        return books.get(0);
+        Book book = jdbcTemplate.queryForObject("select * from BOOKS where ISBN = '"+ISBN+"'", Book.class);
+        return book;
     }
 
     // 删除书籍
@@ -82,5 +76,13 @@ public class BookServiceImpl implements BookService {
 
         books = jdbcTemplate.query("select * from BOOKS where ISBN='"+book.getNewisbn()+"'", rowMapper);
         return books.get(0);
+    }
+
+    // 获得书籍详细信息
+    @Override
+    public Book getDetail(String ISBN){
+        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
+        Book book = jdbcTemplate.queryForObject("SELECT * FROM books WHERE ISBN = '"+ISBN+"'", rowMapper);
+        return book;
     }
 }
