@@ -1,7 +1,5 @@
 package cn.liuzhengwei.ebook.domain;
 
-import java.time.Year;
-
 //Book实体定义
 public class Book {
     private String name;
@@ -13,7 +11,7 @@ public class Book {
     private Float price;
     private String url;
     private String press;
-    private Year year;
+    private String year;
     private Integer pages;
 
     public String getPress() {
@@ -24,11 +22,11 @@ public class Book {
         this.press = press;
     }
 
-    public Year getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Year year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

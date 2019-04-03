@@ -51,7 +51,7 @@ public class BookController {
     //
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
-    public Book modifyBook(@RequestParam("isbn") String ISBN) {
+    public Book modifyBook(@RequestParam("ISBN") String ISBN) {
         Book result = bookService.getDetail(ISBN);
         return result;
     }
