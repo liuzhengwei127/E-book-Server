@@ -37,14 +37,15 @@ public class BookServiceImpl implements BookService {
     // 添加书籍
     @Override
     public void addBook(Book book) {
-        jdbcTemplate.update("insert into BOOKS(NAME, AUTHOR, ISBN, OUTLINE, STOCK, PRICE, url) values(?, ?, ?, ?, ?, ?, ?)",
-                book.getName(), book.getAuthor(), book.getISBN(), book.getOutline(), book.getStock(), book.getPrice(), book.getUrl());
+        jdbcTemplate.update("insert into BOOKS(NAME, AUTHOR, ISBN, OUTLINE, STOCK, PRICE, url, press, year, pages) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                book.getName(), book.getAuthor(), book.getISBN(), book.getOutline(), book.getStock(), book.getPrice(), book.getUrl(), book.getPress(), book.getYear(), book.getPages());
     }
 
     // 查找书籍
     @Override
     public Book getBook(String ISBN) throws Exception{
-        Book book = jdbcTemplate.queryForObject("select * from BOOKS where ISBN = '"+ISBN+"'", Book.class);
+        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
+        Book book = jdbcTemplate.queryForObject("select * from BOOKS where ISBN = '"+ISBN+"'", rowMapper);
         return book;
     }
 
@@ -71,6 +72,9 @@ public class BookServiceImpl implements BookService {
                 "ISBN='"+book.getNewisbn()+"', " +
                 "OUTLINE='"+book.getOutline()+"', " +
                 "STOCK="+book.getStock()+", " +
+                "PRESS='"+book.getPress()+"', "+
+                "YEAR='"+book.getYear()+"', "+
+                "PAGES="+book.getPages()+", "+
                 "PRICE="+book.getPrice()+
                 url+" where ISBN='"+book.getISBN()+"' ");
 
