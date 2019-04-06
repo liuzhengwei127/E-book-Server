@@ -1,6 +1,6 @@
 package cn.liuzhengwei.ebook.service;
 
-import cn.liuzhengwei.ebook.domain.Book;
+import cn.liuzhengwei.ebook.entity.Book;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface BookService {
     void addBook(Book book);
 
     // 查找书籍
-    Book getBook(String ISBN) throws Exception;
+    Book getBook(String ISBN);
 
     // 删除书籍
     Book deleteBook(String ISBN);

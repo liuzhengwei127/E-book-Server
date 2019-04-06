@@ -1,4 +1,4 @@
-package cn.liuzhengwei.ebook.domain;
+package cn.liuzhengwei.ebook.entity;
 
 public class UserState {
 

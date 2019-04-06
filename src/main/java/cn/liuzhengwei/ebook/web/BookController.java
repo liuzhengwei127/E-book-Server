@@ -1,6 +1,6 @@
 package cn.liuzhengwei.ebook.web;
 
-import cn.liuzhengwei.ebook.domain.Book;
+import cn.liuzhengwei.ebook.entity.Book;
 import cn.liuzhengwei.ebook.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

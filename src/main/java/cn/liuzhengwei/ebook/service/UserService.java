@@ -1,8 +1,8 @@
 package cn.liuzhengwei.ebook.service;
 
-import cn.liuzhengwei.ebook.domain.LoginState;
-import cn.liuzhengwei.ebook.domain.User;
-import cn.liuzhengwei.ebook.domain.UserState;
+import cn.liuzhengwei.ebook.entity.LoginState;
+import cn.liuzhengwei.ebook.entity.User;
+import cn.liuzhengwei.ebook.entity.UserState;
 
 import java.util.List;
 

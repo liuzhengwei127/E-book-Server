@@ -1,8 +1,9 @@
 package cn.liuzhengwei.ebook.service;
 
-import cn.liuzhengwei.ebook.domain.LoginState;
-import cn.liuzhengwei.ebook.domain.User;
-import cn.liuzhengwei.ebook.domain.UserState;
+import cn.liuzhengwei.ebook.entity.LoginState;
+import cn.liuzhengwei.ebook.entity.User;
+import cn.liuzhengwei.ebook.entity.UserState;
+import cn.liuzhengwei.ebook.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    UserMapper userMapper;
 
     //新增一个用户
     @Override
@@ -43,18 +47,7 @@ public class UserServiceImpl implements UserService {
     //获取单个用户数据
     @Override
     public User getUser(String account) {
-        RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
-        List<User> users;
-
-        users = jdbcTemplate.query("select * from USERS where account='"+account+"'", rowMapper);
-
-        if (users.size() > 0)
-            return users.get(0);
-        else {
-            User user = new User();
-            user.setAccount("");
-            return user;
-        }
+        return userMapper.getUser(account);
     }
 
     //判断用户状态

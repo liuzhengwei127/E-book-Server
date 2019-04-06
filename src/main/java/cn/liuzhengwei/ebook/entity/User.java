@@ -1,4 +1,4 @@
-package cn.liuzhengwei.ebook.domain;
+package cn.liuzhengwei.ebook.entity;
 
 //User实体定义
 public class User {

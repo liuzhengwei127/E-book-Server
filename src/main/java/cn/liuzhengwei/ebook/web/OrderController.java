@@ -1,9 +1,9 @@
 package cn.liuzhengwei.ebook.web;
 
-import cn.liuzhengwei.ebook.domain.Order;
-import cn.liuzhengwei.ebook.domain.OrderList;
-import cn.liuzhengwei.ebook.domain.Orders;
-import cn.liuzhengwei.ebook.domain.User;
+import cn.liuzhengwei.ebook.entity.Order;
+import cn.liuzhengwei.ebook.entity.OrderList;
+import cn.liuzhengwei.ebook.entity.Orders;
+import cn.liuzhengwei.ebook.entity.User;
 import cn.liuzhengwei.ebook.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

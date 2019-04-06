@@ -1,6 +1,6 @@
 package cn.liuzhengwei.ebook.service;
 
-import cn.liuzhengwei.ebook.domain.Book;
+import cn.liuzhengwei.ebook.entity.Book;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -9,13 +9,15 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    //@Autowired
+    //private BookMapper bookMapper;
 
     // 获取所有书籍
     @Override
@@ -24,6 +26,7 @@ public class BookServiceImpl implements BookService {
         List<Book> books;
         books = jdbcTemplate.query("select name,author,ISBN,outline,stock,price,url from BOOKS", rowMapper);
         return books;
+        //return bookMapper.getBooks();
     }
 
     // 搜索书籍
@@ -43,10 +46,9 @@ public class BookServiceImpl implements BookService {
 
     // 查找书籍
     @Override
-    public Book getBook(String ISBN) throws Exception{
-        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
-        Book book = jdbcTemplate.queryForObject("select * from BOOKS where ISBN = '"+ISBN+"'", rowMapper);
-        return book;
+    public Book getBook(String ISBN){
+        //return bookMapper.getBook(ISBN);
+        return new Book();
     }
 
     // 删除书籍

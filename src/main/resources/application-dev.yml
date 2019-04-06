@@ -1,0 +1,12 @@
+server:
+  port: 1211
+
+spring:
+  datasource:
+    username: root
+    password: lzw990127
+    url: jdbc:mysql://localhost:3306/e-book?serverTimezone=GMT
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:/mybatis/mapping/*Mapper.xml

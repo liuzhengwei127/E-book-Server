@@ -1,6 +1,6 @@
 package cn.liuzhengwei.ebook.service;
 
-import cn.liuzhengwei.ebook.domain.Order;
+import cn.liuzhengwei.ebook.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

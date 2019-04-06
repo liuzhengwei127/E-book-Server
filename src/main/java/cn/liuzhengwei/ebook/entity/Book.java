@@ -1,4 +1,4 @@
-package cn.liuzhengwei.ebook.domain;
+package cn.liuzhengwei.ebook.entity;
 
 //Book实体定义
 public class Book {

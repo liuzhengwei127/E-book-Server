@@ -1,7 +1,8 @@
 package cn.liuzhengwei.ebook;
 
-import cn.liuzhengwei.ebook.domain.UserState;
-import cn.liuzhengwei.ebook.service.UserService;
+import cn.liuzhengwei.ebook.entity.Book;
+import cn.liuzhengwei.ebook.entity.User;
+import cn.liuzhengwei.ebook.mapper.UserMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +16,11 @@ import java.util.List;
 @SpringBootTest
 public class EBookApplicationTests {
 	@Autowired
-	private UserService userService;
+	private UserMapper userMapper;
 
 	@Test
 	public void testGetBook() {
-		List<UserState> userStates = userService.getUserStates();
-		Assert.assertEquals(3, userStates.size());
+		User user = userMapper.getUser("abc");
+		Assert.assertEquals("999", user.getPassword());
 	}
 }
