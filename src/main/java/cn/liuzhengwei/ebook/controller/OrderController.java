@@ -1,4 +1,4 @@
-package cn.liuzhengwei.ebook.web;
+package cn.liuzhengwei.ebook.controller;
 
 import cn.liuzhengwei.ebook.entity.Order;
 import cn.liuzhengwei.ebook.entity.OrderList;

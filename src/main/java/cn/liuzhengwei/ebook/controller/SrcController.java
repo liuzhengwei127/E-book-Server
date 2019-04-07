@@ -1,4 +1,4 @@
-package cn.liuzhengwei.ebook.web;
+package cn.liuzhengwei.ebook.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

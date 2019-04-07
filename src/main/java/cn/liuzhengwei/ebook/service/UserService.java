@@ -13,12 +13,6 @@ public interface UserService {
     void create(String account, String password, String name);
     void create(String account, String password, String name, Boolean allowed, Boolean isManager);
 
-    //获取用户总量
-    Integer getAllUsers();
-
-    //删除所有用户
-    void deleteAllUsers();
-
     //获取单个用户数据
     User getUser(String account);
 
@@ -26,10 +20,10 @@ public interface UserService {
     LoginState getLoginState(String account, String password);
 
     //禁用用户
-    void banUser(String account);
+    int banUser(String account);
 
     //解禁用户
-    void allowUser(String account);
+    int allowUser(String account);
 
     //获得所有用户状态
     List<UserState> getUserStates();

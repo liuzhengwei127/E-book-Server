@@ -1,4 +1,4 @@
-package cn.liuzhengwei.ebook.web;
+package cn.liuzhengwei.ebook.controller;
 
 import cn.liuzhengwei.ebook.entity.LoginState;
 import cn.liuzhengwei.ebook.entity.User;
@@ -23,7 +23,7 @@ public class UserController {
     @ResponseBody
     public User signUp(@RequestBody User user) {
         User test = userservice.getUser(user.getAccount());
-        if (test.getAccount().length() > 0){
+        if (test != null){
             test = new User();
             return test;
         } else {

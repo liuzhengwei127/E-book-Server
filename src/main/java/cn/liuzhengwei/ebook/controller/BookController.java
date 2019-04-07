@@ -1,4 +1,4 @@
-package cn.liuzhengwei.ebook.web;
+package cn.liuzhengwei.ebook.controller;
 
 import cn.liuzhengwei.ebook.entity.Book;
 import cn.liuzhengwei.ebook.service.BookService;

@@ -1,8 +1,12 @@
 package cn.liuzhengwei.ebook;
 
 import cn.liuzhengwei.ebook.entity.Book;
+import cn.liuzhengwei.ebook.entity.LoginState;
 import cn.liuzhengwei.ebook.entity.User;
+import cn.liuzhengwei.ebook.entity.UserState;
 import cn.liuzhengwei.ebook.mapper.UserMapper;
+import cn.liuzhengwei.ebook.service.UserService;
+import cn.liuzhengwei.ebook.service.UserServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +22,12 @@ public class EBookApplicationTests {
 	@Autowired
 	private UserMapper userMapper;
 
+	@Autowired
+	private UserService userService;
+
 	@Test
-	public void testGetBook() {
-		User user = userMapper.getUser("abc");
-		Assert.assertEquals("999", user.getPassword());
+	public void testGetLoginState() {
+		List<UserState> userStates = userMapper.getUserState();
+		Assert.assertEquals(10, userStates.size());
 	}
 }
