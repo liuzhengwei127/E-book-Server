@@ -22,12 +22,14 @@ public class UserController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
     public User signUp(@RequestBody User user) {
-        User test = userservice.getUser(user.getAccount());
-        if (test != null){
-            test = new User();
-            return test;
+        User existing = userservice.getUser(user.getAccount());
+        if (existing != null){
+            existing = new User();
+            return existing;
         } else {
+            // 用户名已经存在
             userservice.create(user.getAccount(),user.getPassword(),user.getName());
+            user = userservice.getUser(user.getAccount());
             return user;
         }
     }
