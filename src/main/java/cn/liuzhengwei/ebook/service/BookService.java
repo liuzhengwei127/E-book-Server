@@ -21,7 +21,7 @@ public interface BookService {
     int deleteBook(String ISBN);
 
     // 修改书籍
-    Book modifyBook(Book book);
+    int modifyBook(Book book);
 
     // 获得书籍详细信息
     Book getDetail(String ISBN);

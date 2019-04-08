@@ -37,4 +37,32 @@
         DELETE FROM books
             WHERE isbn = #{ISBN}
     </delete>
+
+    <insert id="addBook" parameterType="cn.liuzhengwei.ebook.entity.Book">
+        INSERT INTO books(name, author, isbn, outline, stock, price, url, press, year, pages)
+            VALUES(#{name}, #{author}, #{ISBN}, #{outline}, #{stock}, #{price}, #{url}, #{press}, #{year}, #{pages})
+    </insert>
+
+    <update id="modifyBook" parameterType="cn.liuzhengwei.ebook.entity.Book">
+        UPDATE books
+            SET name=#{name},
+            author=#{author},
+            isbn=#{newisbn},
+            outline=#{outline},
+            stock=#{stock},
+            price=#{price},
+            <if test="url!=null">
+                url=#{url},
+            </if>
+            press=#{press},
+            year=#{year},
+            pages=#{pages}
+                WHERE isbn=#{ISBN}
+    </update>
+
+    <select id="getDetail" resultType="cn.liuzhengwei.ebook.entity.Book">
+        SELECT *
+            FROM books
+                WHERE isbn =#{ISBN}
+    </select>
 </mapper>

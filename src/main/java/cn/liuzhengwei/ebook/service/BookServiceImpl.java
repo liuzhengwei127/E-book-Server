@@ -38,8 +38,7 @@ public class BookServiceImpl implements BookService {
     // 添加书籍
     @Override
     public void addBook(Book book) {
-        jdbcTemplate.update("insert into BOOKS(NAME, AUTHOR, ISBN, OUTLINE, STOCK, PRICE, url, press, year, pages) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                book.getName(), book.getAuthor(), book.getISBN(), book.getOutline(), book.getStock(), book.getPrice(), book.getUrl(), book.getPress(), book.getYear(), book.getPages());
+        bookMapper.addBook(book);
     }
 
     // 查找书籍
@@ -58,31 +57,15 @@ public class BookServiceImpl implements BookService {
 
     // 修改书籍
     @Override
-    public Book modifyBook(Book book) {
-        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
-        List<Book> books;
-        String url = book.getUrl() == null ? "" : ", URL='"+StringEscapeUtils.escapeJava(book.getUrl())+"' ";
-
-        jdbcTemplate.update("update BOOKS set NAME='"+book.getName()+"', " +
-                "AUTHOR='"+book.getAuthor()+"', " +
-                "ISBN='"+book.getNewisbn()+"', " +
-                "OUTLINE='"+book.getOutline()+"', " +
-                "STOCK="+book.getStock()+", " +
-                "PRESS='"+book.getPress()+"', "+
-                "YEAR='"+book.getYear()+"', "+
-                "PAGES="+book.getPages()+", "+
-                "PRICE="+book.getPrice()+
-                url+" where ISBN='"+book.getISBN()+"' ");
-
-        books = jdbcTemplate.query("select * from BOOKS where ISBN='"+book.getNewisbn()+"'", rowMapper);
-        return books.get(0);
+    public int modifyBook(Book book) {
+        int result = bookMapper.modifyBook(book);
+        return result;
     }
 
     // 获得书籍详细信息
     @Override
     public Book getDetail(String ISBN){
-        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
-        Book book = jdbcTemplate.queryForObject("SELECT * FROM books WHERE ISBN = '"+ISBN+"'", rowMapper);
+        Book book = bookMapper.getDetail(ISBN);
         return book;
     }
 }

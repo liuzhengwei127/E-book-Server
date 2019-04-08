@@ -11,4 +11,7 @@ public interface BookMapper {
     List<Book> getBooks();
     List<Book> searchBooks(String filter);
     int deleteBook(String ISBN);
+    void addBook(Book book);
+    int modifyBook(Book book);
+    Book getDetail(String ISBN);
 }

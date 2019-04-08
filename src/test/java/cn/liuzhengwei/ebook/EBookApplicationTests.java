@@ -25,7 +25,24 @@ public class EBookApplicationTests {
 
 	@Test
 	public void testGetLoginState() {
-		Book book = bookMapper.getBook("999");
-		Assert.assertEquals("999", book.getISBN());
+		bookMapper.deleteBook("123");
+		Book book = bookMapper.getBook("123");
+		Assert.assertEquals(null, book);
+
+		Book booktoadd = new Book();
+		booktoadd.setAuthor("111");
+		booktoadd.setISBN("111");
+		booktoadd.setName("111");
+		booktoadd.setOutline("111");
+		booktoadd.setPress("111");
+		booktoadd.setUrl("111");
+		booktoadd.setYear("1111");
+		booktoadd.setPages(111);
+		booktoadd.setStock(123);
+		booktoadd.setPrice(11f);
+
+		bookMapper.addBook(booktoadd);
+		book = bookMapper.getBook("111");
+		Assert.assertEquals(123, book.getStock().intValue());
 	}
 }

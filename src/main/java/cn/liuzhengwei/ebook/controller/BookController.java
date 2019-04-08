@@ -44,7 +44,13 @@ public class BookController {
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ResponseBody
     public Book modifyBook(@RequestBody Book book) {
-        Book result = bookService.modifyBook(book);
+        int row = bookService.modifyBook(book);
+        Book result;
+        if (row>0){
+            result = bookService.getBook(book.getISBN());
+        } else {
+            result = new Book();
+        }
         return result;
     }
 
