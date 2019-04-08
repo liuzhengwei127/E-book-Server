@@ -9,9 +9,6 @@ public interface OrderService {
     // 添加订单
     void addOrder(List<Order> order);
 
-    // 删除订单
-    void deleteOrder(Integer id);
-
     // 获取所有订单
     List<Order> getAllOrders();
 
