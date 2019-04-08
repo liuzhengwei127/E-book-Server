@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liuzhengwei.ebook.mapper.BookMapper">
+
+    <resultMap id="BookResultMap" type="cn.liuzhengwei.ebook.entity.Book">
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="ISBN" jdbcType="VARCHAR" property="ISBN" />
+        <result column="outline" jdbcType="VARCHAR" property="outline" />
+        <result column="stock" jdbcType="INTEGER" property="stock" />
+        <result column="price" jdbcType="FLOAT" property="price" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="press" jdbcType="VARCHAR" property="press" />
+        <result column="year" jdbcType="VARCHAR" property="year" />
+        <result column="pages" jdbcType="INTEGER" property="pages" />
+    </resultMap>
+
+    <!--获取书籍-->
+    <select id="getBook" resultType="cn.liuzhengwei.ebook.entity.Book">
+        SELECT *
+            FROM books
+                WHERE isbn = #{ISBN}
+    </select>
+
+    <select id="getBooks" resultMap="BookResultMap">
+        SELECT name,author,isbn,outline,stock,price,url
+            FROM books
+    </select>
+
+    <select id="searchBooks" resultMap="BookResultMap">
+        SELECT *
+            FROM books
+                WHERE name like #{filter} or author like #{filter}
+    </select>
+
+    <delete id="deleteBook">
+        DELETE FROM books
+            WHERE isbn = #{ISBN}
+    </delete>
+</mapper>

@@ -1,6 +1,7 @@
 package cn.liuzhengwei.ebook.service;
 
 import cn.liuzhengwei.ebook.entity.Book;
+import cn.liuzhengwei.ebook.mapper.BookMapper;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -16,24 +17,21 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    //@Autowired
-    //private BookMapper bookMapper;
+    @Autowired
+    private BookMapper bookMapper;
 
     // 获取所有书籍
     @Override
     public List<Book> getBooks() {
-        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
-        List<Book> books;
-        books = jdbcTemplate.query("select name,author,ISBN,outline,stock,price,url from BOOKS", rowMapper);
+        List<Book> books = bookMapper.getBooks();
         return books;
-        //return bookMapper.getBooks();
     }
 
+    @Override
     // 搜索书籍
     public List<Book> searchBooks(String text){
-        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
-        List<Book> books;
-        books = jdbcTemplate.query("select * from BOOKS where name like '%"+text+"%'", rowMapper);
+        String filter = "%"+text+"%";
+        List<Book> books = bookMapper.searchBooks(filter);
         return books;
     }
 
@@ -47,19 +45,15 @@ public class BookServiceImpl implements BookService {
     // 查找书籍
     @Override
     public Book getBook(String ISBN){
-        //return bookMapper.getBook(ISBN);
-        return new Book();
+        Book book = bookMapper.getBook(ISBN);
+        return book;
     }
 
     // 删除书籍
     @Override
-    public Book deleteBook(String ISBN) {
-        RowMapper<Book> rowMapper = new BeanPropertyRowMapper<>(Book.class);
-        List<Book> books;
-        books = jdbcTemplate.query("select * from BOOKS where ISBN='"+ISBN+"'", rowMapper);
-        jdbcTemplate.update("delete from BOOKS where ISBN='"+ISBN+"'");
-
-        return books.get(0);
+    public int deleteBook(String ISBN) {
+        int result = bookMapper.deleteBook(ISBN);
+        return result;
     }
 
     // 修改书籍

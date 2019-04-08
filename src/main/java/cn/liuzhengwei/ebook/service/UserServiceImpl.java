@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
         return rows;
     }
 
+    @Override
     //获得所有用户状态
     public List<UserState> getUserStates() {
         List<UserState> userStates;

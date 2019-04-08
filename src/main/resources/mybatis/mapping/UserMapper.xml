@@ -35,6 +35,7 @@
             values(#{account}, #{password}, #{name}, #{allowed}, #{isManager})
     </insert>
 
+    <!--获取所有用户权限-->
     <select id="getUserState" resultMap="UserStateResultMap">
         SELECT account,name,allowed
             FROM users

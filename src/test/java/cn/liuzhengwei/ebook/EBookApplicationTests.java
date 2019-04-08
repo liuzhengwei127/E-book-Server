@@ -4,6 +4,7 @@ import cn.liuzhengwei.ebook.entity.Book;
 import cn.liuzhengwei.ebook.entity.LoginState;
 import cn.liuzhengwei.ebook.entity.User;
 import cn.liuzhengwei.ebook.entity.UserState;
+import cn.liuzhengwei.ebook.mapper.BookMapper;
 import cn.liuzhengwei.ebook.mapper.UserMapper;
 import cn.liuzhengwei.ebook.service.UserService;
 import cn.liuzhengwei.ebook.service.UserServiceImpl;
@@ -20,14 +21,11 @@ import java.util.List;
 @SpringBootTest
 public class EBookApplicationTests {
 	@Autowired
-	private UserMapper userMapper;
-
-	@Autowired
-	private UserService userService;
+	private BookMapper bookMapper;
 
 	@Test
 	public void testGetLoginState() {
-		List<UserState> userStates = userMapper.getUserState();
-		Assert.assertEquals(10, userStates.size());
+		Book book = bookMapper.getBook("999");
+		Assert.assertEquals("999", book.getISBN());
 	}
 }

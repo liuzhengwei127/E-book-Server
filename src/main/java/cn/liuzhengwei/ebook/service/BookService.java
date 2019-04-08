@@ -18,7 +18,7 @@ public interface BookService {
     Book getBook(String ISBN);
 
     // 删除书籍
-    Book deleteBook(String ISBN);
+    int deleteBook(String ISBN);
 
     // 修改书籍
     Book modifyBook(Book book);
