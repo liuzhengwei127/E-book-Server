@@ -54,11 +54,23 @@ public class BookController {
         return result;
     }
 
-    //
+    // 监听'/book/detail' 返回相应书籍详细信息
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
     public Book modifyBook(@RequestParam("ISBN") String ISBN) {
         Book result = bookService.getDetail(ISBN);
         return result;
+    }
+
+    // 监听'/book/delete' 数据库中删除相应书籍
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public String deleteBook(@RequestParam("ISBN") String ISBN) {
+        int result = bookService.deleteBook(ISBN);
+        if (result > 0) {
+            return "删除成功";
+        } else {
+            return "删除失败";
+        }
     }
 }
