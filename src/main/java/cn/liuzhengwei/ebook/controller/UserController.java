@@ -81,4 +81,13 @@ public class UserController {
             loginState = new LoginState();
         return loginState;
     }
+
+    // 监听'/user/logout',从session中去除用户登录态
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @ResponseBody
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("loginState");
+        return "登出成功";
+    }
 }

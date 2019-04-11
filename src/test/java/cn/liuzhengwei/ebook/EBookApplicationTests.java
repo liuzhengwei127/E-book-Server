@@ -30,19 +30,20 @@ public class EBookApplicationTests {
 		Assert.assertEquals(null, book);
 
 		Book booktoadd = new Book();
-		booktoadd.setAuthor("111");
-		booktoadd.setISBN("111");
-		booktoadd.setName("111");
-		booktoadd.setOutline("111");
-		booktoadd.setPress("111");
-		booktoadd.setUrl("111");
-		booktoadd.setYear("1111");
+		booktoadd.setAuthor("333");
+		booktoadd.setISBN("333");
+		booktoadd.setName("333");
+		booktoadd.setOutline("3333");
+		booktoadd.setPress("333");
+		booktoadd.setUrl("333");
+		booktoadd.setYear("333");
 		booktoadd.setPages(111);
 		booktoadd.setStock(123);
 		booktoadd.setPrice(11f);
 
 		bookMapper.addBook(booktoadd);
-		book = bookMapper.getBook("111");
+		book = bookMapper.getBook("333");
 		Assert.assertEquals(123, book.getStock().intValue());
+		bookMapper.deleteBook("333");
 	}
 }

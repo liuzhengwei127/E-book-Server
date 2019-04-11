@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 
 @RestController
 public class SrcController {
+    //图片写入路径
+    //private String filePath = "C:\\Users\\75667\\vueProject\\E-book\\public\\images\\";
+    private String pathRoot = "/var/www/html/ebook/images/";
     @RequestMapping(value="/upload", method = RequestMethod.POST)
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file) {
@@ -15,17 +18,14 @@ public class SrcController {
         //传入图片文件名
         String fileName = file.getOriginalFilename();
 
-        //图片写入路径
-        String filePath = "C:\\Users\\75667\\vueProject\\E-book\\public\\images\\";
-
         //处理文件，将文件写入指定位置
         try {
             byte[] file_b = file.getBytes();
-            File targetFile = new File(filePath);
+            File targetFile = new File(pathRoot);
             if(!targetFile.exists()){
                 targetFile.mkdirs();
             }
-            FileOutputStream out = new FileOutputStream(filePath+fileName);
+            FileOutputStream out = new FileOutputStream(pathRoot+fileName);
             out.write(file_b);
             out.flush();
             out.close();
@@ -34,14 +34,14 @@ public class SrcController {
         }
 
         // 返回图片的存放路径
-        return filePath+fileName;
+        return fileName;
     }
 
     @RequestMapping(value="/delete", method = RequestMethod.GET)
     @ResponseBody
     public String delete(@RequestParam("filename") String filename) {
         String result;
-        String path = "C:\\Users\\75667\\vueProject\\E-book\\public\\images\\"+filename;
+        String path = pathRoot+filename;
         File file = new File(path);
 
         //删除图片
