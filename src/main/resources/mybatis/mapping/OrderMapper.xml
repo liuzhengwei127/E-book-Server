@@ -10,8 +10,7 @@
         <result column="date" jdbcType="TIMESTAMP" property="date" />
     </resultMap>
 
-    <!--获取所有订单-->
-    <select id="getAllOrders" resultMap="OrderResultMap">
+    <sql id="getOrders">
         SELECT *
             FROM orders
                 NATURAL JOIN (
@@ -22,7 +21,18 @@
                                 SELECT name AS username,account
                                     FROM users
                               ) AS users
-                ORDER BY id
+    </sql>
+
+    <!--获取所有订单-->
+    <select id="getAllOrders" resultMap="OrderResultMap">
+        <include refid="getOrders"></include>
+            ORDER BY id
+    </select>
+
+    <select id="searchOrder" resultMap="OrderResultMap">
+        <include refid="getOrders"></include>
+            WHERE username like #{filter}
+            ORDER BY id
     </select>
 
     <select id="getOrder" resultMap="OrderResultMap">

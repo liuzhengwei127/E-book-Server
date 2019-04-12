@@ -14,4 +14,7 @@ public interface OrderService {
 
     // 获取指定用户订单
     List<Order> getOrder(String account);
+
+    // 搜索订单
+    List<Order> searchOrder(String filter);
 }

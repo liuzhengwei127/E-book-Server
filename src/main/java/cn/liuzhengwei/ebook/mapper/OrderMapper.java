@@ -8,6 +8,7 @@ import java.util.List;
 @Repository
 public interface OrderMapper {
     List<Order> getAllOrders();
+    List<Order> searchOrder(String filter);
     List<Order> getOrder(String account);
     int setStock(String ISBN, int stock);
     int maxID();

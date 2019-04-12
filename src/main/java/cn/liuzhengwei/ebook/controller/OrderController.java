@@ -91,4 +91,33 @@ public class OrderController {
 
         return result;
     }
+
+
+    // 监听'/order/search' 接受一个参数 返回过滤后的订单数据
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public OrderList searchBooks(@RequestParam("filter") String filter) {
+        List<Order> orders_raw = orderService.searchOrder(filter);
+        List<List<Order>> orders = new LinkedList<>();
+
+        if (orders_raw.size() > 0) {
+            List<Order> list = new LinkedList<>();
+            int id = orders_raw.get(0).getId().intValue();
+            for (int i=0;i<orders_raw.size();i++){
+                if (orders_raw.get(i).getId().intValue() != id){
+                    orders.add(list);
+                    list = new LinkedList<>();
+                    list.add(orders_raw.get(i));
+                    id = orders_raw.get(i).getId();
+                } else {
+                    list.add(orders_raw.get(i));
+                }
+            }
+            orders.add(list);
+        }
+
+        OrderList result = new OrderList();
+        result.setOrders(orders);
+        return result;
+    }
 }

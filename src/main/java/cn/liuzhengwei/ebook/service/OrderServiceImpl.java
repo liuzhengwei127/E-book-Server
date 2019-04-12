@@ -1,12 +1,9 @@
 package cn.liuzhengwei.ebook.service;
 
 import cn.liuzhengwei.ebook.entity.Order;
-import cn.liuzhengwei.ebook.mapper.BookMapper;
 import cn.liuzhengwei.ebook.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,6 +49,14 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> getOrder(String account) {
         List<Order> orders = orderMapper.getOrder(account);
+        return orders;
+    }
+
+    // 搜索订单
+    @Override
+    public List<Order> searchOrder(String text) {
+        String filter = "%"+text+"%";
+        List<Order> orders= orderMapper.searchOrder(filter);
         return orders;
     }
 }
