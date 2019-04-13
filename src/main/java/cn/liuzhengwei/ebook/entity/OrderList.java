@@ -1,16 +1,11 @@
 package cn.liuzhengwei.ebook.entity;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class OrderList {
 
     private List<List<Order>> orders;
-
-    public List<List<Order>> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<List<Order>> orders) {
-        this.orders = orders;
-    }
 }

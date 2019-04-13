@@ -10,6 +10,12 @@
         <result column="date" jdbcType="TIMESTAMP" property="date" />
     </resultMap>
 
+    <resultMap id="dateOrderResultMap" type="cn.liuzhengwei.ebook.entity.DateOrder">
+        <result column="date" jdbcType="TIMESTAMP" property="date" />
+        <result column="count" jdbcType="SMALLINT" property="count" />
+        <result column="amount" jdbcType="FLOAT" property="amount"/>
+    </resultMap>
+
     <sql id="getOrders">
         SELECT *
             FROM orders
@@ -29,42 +35,60 @@
             ORDER BY id
     </select>
 
+    <!--订单搜索-->
     <select id="searchOrder" resultMap="OrderResultMap">
         <include refid="getOrders"></include>
             WHERE username like #{filter}
             ORDER BY id
     </select>
 
+    <!--获取指定用户订单-->
     <select id="getOrder" resultMap="OrderResultMap">
         SELECT *
-            FROM orders NATURAL JOIN
-                (SELECT name AS bookname,author,ISBN,price,url
-                    FROM books) AS bookss
-            NATURAL JOIN
-                (SELECT name AS username,account
-                    FROM users) AS users
-                 WHERE account = #{account}
-                    ORDER BY id
+            FROM orders
+                NATURAL JOIN
+                    (SELECT name AS bookname,author,ISBN,price,url
+                        FROM books) AS bookss
+                NATURAL JOIN
+                    (SELECT name AS username,account
+                        FROM users) AS users
+            WHERE account = #{account}
+            ORDER BY id
     </select>
 
+    <!--最大订单id-->
     <select id="maxID" resultType="int">
         SELECT max(id)
             FROM orders
     </select>
 
+    <!--获取指定书籍库存-->
     <select id="selectStock" resultType="int">
         SELECT stock
             FROM books
-                WHERE isbn=#{ISBN}
+            WHERE isbn=#{ISBN}
     </select>
 
+    <!--更新库存-->
     <update id="setStock">
         UPDATE books
             SET stock=#{stock} WHERE isbn=#{ISBN}
     </update>
 
+    <!--添加订单-->
     <insert id="addOrder" parameterType="cn.liuzhengwei.ebook.entity.Order">
         INSERT INTO orders(id, account, isbn, count, date)
             values(#{id}, #{account}, #{ISBN}, #{count}, #{date})
     </insert>
+
+    <!--时间筛选订单-->
+    <select id="dateFilter" resultMap="dateOrderResultMap">
+        SELECT date, sum(count) as count, sum(amount) as amount
+            FROM (
+                    SELECT date, count, count*price as amount
+                        FROM orders NATURAL JOIN books
+                        WHERE date >= #{beginDate} and date &lt;= #{endDate}
+                                                    and account = #{account}) AS dateOrder
+            GROUP BY date
+    </select>
 </mapper>
