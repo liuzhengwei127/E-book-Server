@@ -95,7 +95,7 @@ public class OrderController {
     // 监听'/order/search' 接受一个参数 返回过滤后的订单数据
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    public OrderList searchBooks(@RequestParam("filter") String filter) {
+    public OrderList searchOrders(@RequestParam("filter") String filter) {
         List<Order> orders_raw = orderService.searchOrder(filter);
         List<List<Order>> orders = new LinkedList<>();
 
@@ -123,8 +123,8 @@ public class OrderController {
     // 监听'/order/date' 返回日期筛选后的订单数据
     @RequestMapping(value = "/date", method = RequestMethod.GET)
     @ResponseBody
-    public List<DateOrder> searchBooks(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
-        // 将结束日期+1 便于sql
+    public List<DateOrder> dateFilter(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
+        // 将结束日期+1 便于sql操作
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = format.parse(endDate);
@@ -138,5 +138,25 @@ public class OrderController {
         }
 
         return orderService.dateFilter(beginDate,endDate,account);
+    }
+
+    // 监听'/order/dateDetail' 返回日期筛选后的详细订单数据
+    @RequestMapping(value = "/dateDetail", method = RequestMethod.GET)
+    @ResponseBody
+    public List<DateOrder> dateDetailFilter(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
+        // 将结束日期+1 便于sql操作
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse(endDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            date = calendar.getTime();
+            endDate = format.format(date);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+        return orderService.dateDetailFilter(beginDate,endDate,account);
     }
 }
