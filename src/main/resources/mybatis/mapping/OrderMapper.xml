@@ -29,6 +29,19 @@
                               ) AS users
     </sql>
 
+    <sql id="dateFilter">
+        SELECT *
+        FROM orders
+        NATURAL JOIN (
+        SELECT name AS bookname,author,ISBN,price,url
+        FROM books
+        ) AS bookss
+        NATURAL JOIN (
+        SELECT name AS username,account
+        FROM users
+        ) AS users
+    </sql>
+
     <!--获取所有订单-->
     <select id="getAllOrders" resultMap="OrderResultMap">
         <include refid="getOrders"></include>
@@ -88,7 +101,8 @@
                     SELECT DATE_FORMAT(date, "%Y-%m-%d") as date, count, count*price as amount
                         FROM orders NATURAL JOIN books
                         WHERE date >= #{beginDate} and date &lt;= #{endDate}
-                                                    and account = #{account}) AS dateOrder
+                        <if test="account != null">and account = #{account}</if>
+                    ) AS dateOrder
             GROUP BY date
     </select>
 </mapper>
