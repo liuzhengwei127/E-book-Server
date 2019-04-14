@@ -85,7 +85,7 @@
     <select id="dateFilter" resultMap="dateOrderResultMap">
         SELECT date, sum(count) as count, sum(amount) as amount
             FROM (
-                    SELECT date, count, count*price as amount
+                    SELECT DATE_FORMAT(date, "%Y-%m-%d") as date, count, count*price as amount
                         FROM orders NATURAL JOIN books
                         WHERE date >= #{beginDate} and date &lt;= #{endDate}
                                                     and account = #{account}) AS dateOrder

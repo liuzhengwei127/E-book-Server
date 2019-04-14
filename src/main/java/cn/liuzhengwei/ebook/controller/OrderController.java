@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -122,6 +124,19 @@ public class OrderController {
     @RequestMapping(value = "/date", method = RequestMethod.GET)
     @ResponseBody
     public List<DateOrder> searchBooks(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
+        // 将结束日期+1 便于sql
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse(endDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            date = calendar.getTime();
+            endDate = format.format(date);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
         return orderService.dateFilter(beginDate,endDate,account);
     }
 }
