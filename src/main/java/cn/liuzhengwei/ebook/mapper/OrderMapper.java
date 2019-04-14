@@ -1,5 +1,6 @@
 package cn.liuzhengwei.ebook.mapper;
 
+import cn.liuzhengwei.ebook.entity.DateOrder;
 import cn.liuzhengwei.ebook.entity.Order;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,5 @@ public interface OrderMapper {
     int maxID();
     int selectStock(String ISBN);
     void addOrder(Order order);
+    List<DateOrder> dateFilter(String beginDate, String endDate, String account);
 }

@@ -1,9 +1,6 @@
 package cn.liuzhengwei.ebook.controller;
 
-import cn.liuzhengwei.ebook.entity.Order;
-import cn.liuzhengwei.ebook.entity.OrderList;
-import cn.liuzhengwei.ebook.entity.Orders;
-import cn.liuzhengwei.ebook.entity.User;
+import cn.liuzhengwei.ebook.entity.*;
 import cn.liuzhengwei.ebook.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -119,5 +116,12 @@ public class OrderController {
         OrderList result = new OrderList();
         result.setOrders(orders);
         return result;
+    }
+
+    // 监听'/order/date' 返回日期筛选后的订单数据
+    @RequestMapping(value = "/date", method = RequestMethod.GET)
+    @ResponseBody
+    public List<DateOrder> searchBooks(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
+        return orderService.dateFilter(beginDate,endDate,account);
     }
 }

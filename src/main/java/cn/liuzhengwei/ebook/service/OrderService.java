@@ -1,5 +1,6 @@
 package cn.liuzhengwei.ebook.service;
 
+import cn.liuzhengwei.ebook.entity.DateOrder;
 import cn.liuzhengwei.ebook.entity.Order;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface OrderService {
 
     // 搜索订单
     List<Order> searchOrder(String filter);
+
+    // 筛选指定日期内指定用户的订单
+    List<DateOrder> dateFilter(String beginDate, String endDate, String account);
 }

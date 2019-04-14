@@ -1,5 +1,6 @@
 package cn.liuzhengwei.ebook.service;
 
+import cn.liuzhengwei.ebook.entity.DateOrder;
 import cn.liuzhengwei.ebook.entity.Order;
 import cn.liuzhengwei.ebook.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,13 @@ public class OrderServiceImpl implements OrderService{
     public List<Order> searchOrder(String text) {
         String filter = "%"+text+"%";
         List<Order> orders= orderMapper.searchOrder(filter);
+        return orders;
+    }
+
+    // 筛选指定日期内指定用户的订单
+    @Override
+    public List<DateOrder> dateFilter(String beginDate, String endDate, String account) {
+        List<DateOrder> orders= orderMapper.dateFilter(beginDate,endDate,account);
         return orders;
     }
 }

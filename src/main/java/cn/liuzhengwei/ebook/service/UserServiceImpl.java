@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
         user = userMapper.getLoginState(account, password);
 
         if (user == null){
-            state.setLogin(false);
+            state.setIsLogin(false);
             user = userMapper.getUser(account);
             if (user == null) {
                 state.setCode(0);
@@ -60,20 +60,20 @@ public class UserServiceImpl implements UserService {
         } else {
             if (user.getAllowed()) {
                 if (user.getIsmanager()) {
-                    state.setLogin(true);
+                    state.setIsLogin(true);
                     state.setCode(1);
                     state.setName(user.getName());
                     state.setAccount(user.getAccount());
                     state.setMessage("用户存在，为管理员");
                 } else {
-                    state.setLogin(true);
+                    state.setIsLogin(true);
                     state.setCode(0);
                     state.setName(user.getName());
                     state.setAccount(user.getAccount());
                     state.setMessage("用户存在，为普通用户");
                 }
             } else {
-                state.setLogin(false);
+                state.setIsLogin(false);
                 state.setCode(2);
                 state.setMessage("用户被禁用");
             }
