@@ -114,5 +114,6 @@
             FROM orders NATURAL JOIN books
             WHERE date >= #{beginDate} and date &lt;= #{endDate}
         <if test="account != 'manager'">and account = #{account}</if>
+            ORDER BY account, date
     </select>
 </mapper>
