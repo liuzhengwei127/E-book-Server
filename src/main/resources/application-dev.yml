@@ -5,8 +5,10 @@ spring:
   datasource:
     username: root
     password: lzw990127
-    url: jdbc:mysql://localhost:3306/ebook?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/ebook?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/ebook
 mybatis:
   mapper-locations: classpath:/mybatis/mapping/*Mapper.xml
