@@ -86,8 +86,8 @@ public class SrcController {
         return result;
     }
 
-    @RequestMapping(value = "/downloadFile")
-    public void downloadFile(@RequestParam(name = "filename") String filename, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/images/{filename}")
+    public void downloadFile(@PathVariable String filename, HttpServletResponse response) throws Exception {
         Query query = Query.query(Criteria.where("filename").is(filename));
         // 查询单个文件
         GridFSFile gfsfile = gridFsTemplate.findOne(query);
