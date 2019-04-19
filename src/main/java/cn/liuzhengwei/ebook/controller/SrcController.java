@@ -1,11 +1,9 @@
 package cn.liuzhengwei.ebook.controller;
 
 import com.mongodb.client.gridfs.GridFSBucket;
-import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -14,12 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -33,10 +29,34 @@ public class SrcController {
     private GridFsTemplate gridFsTemplate;
     @Autowired
     private GridFSBucket gridFSBucket;
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @RequestMapping(value="/upload", method = RequestMethod.POST)
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+
+        // 文件大小控制
+        if (file.getSize() > 500*1024) {
+            return "文件过大";
+        }
+
+        // 文件格式控制
+        try {
+            Image image = ImageIO.read(file.getInputStream());
+            if (image == null)
+                return "不支持的文件类型";
+        } catch (IOException e) {
+            return "不支持的文件类型";
+        }
+
+        // 重名检查
+        {
+            Query query = Query.query(Criteria.where("id").is(100L));
+            if (!mongoTemplate.exists(query, "fs.files"))
+                return "文件名已存在";
+        }
+
 
         // 判断是否需要删除书籍封面图片
         String filename = (String)session.getAttribute("fileDelete");
