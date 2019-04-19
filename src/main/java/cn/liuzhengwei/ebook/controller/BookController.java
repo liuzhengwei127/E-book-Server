@@ -3,8 +3,15 @@ package cn.liuzhengwei.ebook.controller;
 import cn.liuzhengwei.ebook.entity.Book;
 import cn.liuzhengwei.ebook.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -14,6 +21,10 @@ public class BookController {
     // 创建连接数据库的接口实例
     @Autowired
     private BookService bookService;
+
+    // mongodb操作实例
+    @Autowired
+    private GridFsTemplate gridFsTemplate;
 
     // 监听'/book/get' 返回所有书籍数据
     @RequestMapping(value = "/get", method = RequestMethod.GET)
@@ -34,24 +45,51 @@ public class BookController {
     // 监听'/book/add' 添加书籍，写入数据库
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Book addBook(@RequestBody Book book) throws Exception{
+    public String addBook(@RequestBody Book book, HttpSession session){
+        InputStream inputStream = (InputStream)session.getAttribute("file");
+        if (inputStream != null) {
+            // 将图片写入mongodb中
+            try {
+                gridFsTemplate.store(inputStream, book.getUrl());
+            }catch (Exception e) {
+                return e.getMessage();
+            }
+        }
+
         bookService.addBook(book);
         Book result = bookService.getBook(book.getISBN());
-        return result;
+
+        return "添加书籍成功";
     }
 
     // 监听'/book/modify' 修改相应书籍的相应数据
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ResponseBody
-    public Book modifyBook(@RequestBody Book book) {
-        int row = bookService.modifyBook(book);
-        Book result;
-        if (row>0){
-            result = bookService.getBook(book.getISBN());
-        } else {
-            result = new Book();
+    public String modifyBook(@RequestBody Book book, HttpSession session) {
+
+        // 判断是否需要写入图片至数据库
+        InputStream inputStream = (InputStream)session.getAttribute("file");
+        if (inputStream != null) {
+            // 将图片写入mongodb中
+            try {
+                gridFsTemplate.store(inputStream, book.getUrl());
+            }catch (Exception e) {
+                return e.getMessage();
+            }
         }
-        return result;
+
+        // 判断是否需要删除书籍封面图片
+        String filename = (String)session.getAttribute("fileDelete");
+        if (filename != null) {
+            Query query = Query.query(Criteria.where("filename").is(filename));
+            gridFsTemplate.delete(query);
+        }
+
+        int row = bookService.modifyBook(book);
+        if (row<=0){
+            return "书籍信息修改失败";
+        }
+        return "书籍信息修改成功";
     }
 
     // 监听'/book/detail' 返回相应书籍详细信息

@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
@@ -33,32 +36,13 @@ public class SrcController {
 
     @RequestMapping(value="/upload", method = RequestMethod.POST)
     @ResponseBody
-    public String upload(@RequestParam("file") MultipartFile file) {
+    public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
 
-        //传入图片文件名
+        HttpSession session = request.getSession();
+        session.setAttribute("file", file.getInputStream());
+
+        //获取图片文件名
         String fileName = file.getOriginalFilename();
-
-        //处理文件，将文件写入指定位置
-        try {
-            byte[] file_b = file.getBytes();
-            File targetFile = new File(pathRoot);
-            if(!targetFile.exists()){
-                targetFile.mkdirs();
-            }
-            FileOutputStream out = new FileOutputStream(pathRoot+fileName);
-            out.write(file_b);
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-
-        try {
-            InputStream inputStream = file.getInputStream();
-            gridFsTemplate.store(inputStream, fileName);
-        }catch (Exception e) {
-            return e.getMessage();
-        }
 
         // 返回图片的存放路径
         return fileName;
@@ -66,24 +50,9 @@ public class SrcController {
 
     @RequestMapping(value="/delete", method = RequestMethod.GET)
     @ResponseBody
-    public String delete(@RequestParam("filename") String filename) {
-        String result;
-        String path = pathRoot+filename;
-        File file = new File(path);
-
-        //删除图片
-        if (file.exists()) {
-            if (file.delete()) {
-                result =  "删除成功";
-            } else {
-                result =  "删除失败";
-            }
-        } else {
-            result = "文件不存在";
-        }
-
-        //返回字符串形式结果
-        return result;
+    public void delete(@RequestParam("filename") String filename, HttpSession session) {
+        session.setAttribute("fileDelete", filename);
+        return;
     }
 
     @RequestMapping(value = "/images/{filename}")

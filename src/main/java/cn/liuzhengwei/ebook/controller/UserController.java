@@ -73,10 +73,9 @@ public class UserController {
     // 监听'/user/init',判断用户是否最近登录
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     @ResponseBody
-    public LoginState ifUserLogin(HttpServletRequest request) {
+    public LoginState ifUserLogin(HttpSession session) {
         LoginState loginState;
-        HttpSession session = request.getSession();
-        loginState = (LoginState) session.getAttribute("loginState");
+        loginState = (LoginState)session.getAttribute("loginState");
         if (loginState == null)
             loginState = new LoginState();
         return loginState;
@@ -85,8 +84,7 @@ public class UserController {
     // 监听'/user/logout',从session中去除用户登录态
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+    public String logout(HttpSession session) {
         session.removeAttribute("loginState");
         return "登出成功";
     }

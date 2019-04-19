@@ -10,5 +10,6 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/ebook
+
 mybatis:
   mapper-locations: classpath:/mybatis/mapping/*Mapper.xml
