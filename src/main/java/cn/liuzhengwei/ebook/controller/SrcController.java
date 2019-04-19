@@ -36,15 +36,23 @@ public class SrcController {
 
     @RequestMapping(value="/upload", method = RequestMethod.POST)
     @ResponseBody
-    public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+    public String upload(@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
 
-        HttpSession session = request.getSession();
+        // 判断是否需要删除书籍封面图片
+        String filename = (String)session.getAttribute("fileDelete");
+        if (filename != null) {
+            // mongodb图片数据删除
+            Query query = Query.query(Criteria.where("filename").is(filename));
+            gridFsTemplate.delete(query);
+            session.removeAttribute("fileDelete");
+        }
+
         session.setAttribute("file", file.getInputStream());
 
         //获取图片文件名
         String fileName = file.getOriginalFilename();
 
-        // 返回图片的存放路径
+        // 返回图片名
         return fileName;
     }
 
@@ -52,6 +60,7 @@ public class SrcController {
     @ResponseBody
     public void delete(@RequestParam("filename") String filename, HttpSession session) {
         session.setAttribute("fileDelete", filename);
+        session.removeAttribute("file");
         return;
     }
 

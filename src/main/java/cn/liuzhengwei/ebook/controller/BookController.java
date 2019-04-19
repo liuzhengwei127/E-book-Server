@@ -67,22 +67,25 @@ public class BookController {
     @ResponseBody
     public String modifyBook(@RequestBody Book book, HttpSession session) {
 
+        // 判断是否需要删除书籍封面图片
+        String filename = (String)session.getAttribute("fileDelete");
+        if (filename != null) {
+            // mongodb图片数据删除
+            Query query = Query.query(Criteria.where("filename").is(filename));
+            gridFsTemplate.delete(query);
+            session.removeAttribute("fileDelete");
+        }
+
         // 判断是否需要写入图片至数据库
         InputStream inputStream = (InputStream)session.getAttribute("file");
         if (inputStream != null) {
             // 将图片写入mongodb中
             try {
                 gridFsTemplate.store(inputStream, book.getUrl());
+                session.removeAttribute("file");
             }catch (Exception e) {
                 return e.getMessage();
             }
-        }
-
-        // 判断是否需要删除书籍封面图片
-        String filename = (String)session.getAttribute("fileDelete");
-        if (filename != null) {
-            Query query = Query.query(Criteria.where("filename").is(filename));
-            gridFsTemplate.delete(query);
         }
 
         int row = bookService.modifyBook(book);
@@ -104,6 +107,12 @@ public class BookController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
     public String deleteBook(@RequestParam("ISBN") String ISBN) {
+        Book book = bookService.getBook(ISBN);
+        if (book.getUrl() != null){
+            Query query = Query.query(Criteria.where("filename").is(book.getUrl()));
+            gridFsTemplate.delete(query);
+        }
+
         int result = bookService.deleteBook(ISBN);
         if (result > 0) {
             return "删除成功";

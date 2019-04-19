@@ -45,19 +45,22 @@
 
     <update id="modifyBook" parameterType="cn.liuzhengwei.ebook.entity.Book">
         UPDATE books
-            SET name=#{name},
+        SET name=#{name},
             author=#{author},
             isbn=#{newisbn},
             outline=#{outline},
             stock=#{stock},
             price=#{price},
-            <if test="url!=null">
-                url=#{url},
-            </if>
+        <if test="url != null">
+            url=#{url},
+        </if>
+        <if test="url == null">
+            url= null,
+        </if>
             press=#{press},
             year=#{year},
             pages=#{pages}
-                WHERE isbn=#{ISBN}
+        WHERE isbn=#{ISBN}
     </update>
 
     <select id="getDetail" resultType="cn.liuzhengwei.ebook.entity.Book">
