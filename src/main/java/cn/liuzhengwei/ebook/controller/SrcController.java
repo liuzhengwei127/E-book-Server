@@ -36,6 +36,9 @@ public class SrcController {
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
 
+        //获取图片文件名
+        String fileName = file.getOriginalFilename();
+
         // 文件大小控制
         if (file.getSize() > 500*1024) {
             return "文件过大";
@@ -52,11 +55,10 @@ public class SrcController {
 
         // 重名检查
         {
-            Query query = Query.query(Criteria.where("id").is(100L));
-            if (!mongoTemplate.exists(query, "fs.files"))
+            Query query = Query.query(Criteria.where("filename").is(fileName));
+            if (mongoTemplate.exists(query, "fs.files"))
                 return "文件名已存在";
         }
-
 
         // 判断是否需要删除书籍封面图片
         String filename = (String)session.getAttribute("fileDelete");
@@ -68,9 +70,6 @@ public class SrcController {
         }
 
         session.setAttribute("file", file.getInputStream());
-
-        //获取图片文件名
-        String fileName = file.getOriginalFilename();
 
         // 返回图片名
         return fileName;
