@@ -5,9 +5,7 @@ import cn.liuzhengwei.ebook.entity.User;
 import cn.liuzhengwei.ebook.entity.UserState;
 import cn.liuzhengwei.ebook.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,7 +57,7 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             if (user.getAllowed()) {
-                if (user.getIsmanager()) {
+                if (user.getIsManager()) {
                     state.setIsLogin(true);
                     state.setCode(1);
                     state.setName(user.getName());

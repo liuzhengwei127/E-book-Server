@@ -4,6 +4,7 @@ import cn.liuzhengwei.ebook.entity.LoginState;
 import cn.liuzhengwei.ebook.entity.User;
 import cn.liuzhengwei.ebook.entity.UserState;
 import cn.liuzhengwei.ebook.service.UserService;
+import cn.liuzhengwei.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,16 +24,21 @@ public class UserController {
     // 监听'/user/signup',接受json参数 并将用户信息写入数据库中
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
-    public User signUp(@RequestBody User user) {
-        User existing = userservice.getUser(user.getAccount());
-        if (existing != null){
-            existing = new User();
-            return existing;
+    public String signUp(@RequestBody User user, HttpSession session) {
+        String code = (String)session.getAttribute("code");
+        String phoneNumber = (String)session.getAttribute("phoneNumber");
+
+        if (code != null && code.equals(user.getCode()) && phoneNumber.equals(user.getAccount())) {
+            User existing = userservice.getUser(user.getAccount());
+            if (existing != null){
+                existing = new User();
+                return "账户已存在";
+            } else {
+                userservice.create(user.getAccount(),user.getPassword(),user.getName());
+                return "注册成功";
+            }
         } else {
-            // 用户名已经存在
-            userservice.create(user.getAccount(),user.getPassword(),user.getName());
-            user = userservice.getUser(user.getAccount());
-            return user;
+            return "验证码错误";
         }
     }
 
@@ -87,5 +93,24 @@ public class UserController {
     public String logout(HttpSession session) {
         session.removeAttribute("loginState");
         return "登出成功";
+    }
+
+    // 监听'/user/code' 发送短信验证码到手机
+    @RequestMapping(value = "/code", method = RequestMethod.GET)
+    @ResponseBody
+    public String code(@RequestParam("phoneNumber")String phoneNumber, HttpSession session) {
+        try {
+            String code = Message.sendSMS(phoneNumber);
+            if (code == "发送失败"){
+                return "发送失败";
+            } else {
+                session.setAttribute("code", code);
+                session.setAttribute("phoneNumber", phoneNumber);
+                return "发送成功";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "发送失败";
+        }
     }
 }
