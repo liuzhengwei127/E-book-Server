@@ -20,30 +20,4 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EBookApplicationTests {
-	@Autowired
-	private BookMapper bookMapper;
-
-	@Test
-	public void testGetLoginState() {
-		bookMapper.deleteBook("123");
-		Book book = bookMapper.getBook("123");
-		Assert.assertEquals(null, book);
-
-		Book booktoadd = new Book();
-		booktoadd.setAuthor("333");
-		booktoadd.setISBN("333");
-		booktoadd.setName("333");
-		booktoadd.setOutline("3333");
-		booktoadd.setPress("333");
-		booktoadd.setUrl("333");
-		booktoadd.setYear("333");
-		booktoadd.setPages(111);
-		booktoadd.setStock(123);
-		booktoadd.setPrice(11f);
-
-		bookMapper.addBook(booktoadd);
-		book = bookMapper.getBook("333");
-		Assert.assertEquals(123, book.getStock().intValue());
-		bookMapper.deleteBook("333");
-	}
 }

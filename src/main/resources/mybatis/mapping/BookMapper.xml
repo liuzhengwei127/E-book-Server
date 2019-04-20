@@ -9,7 +9,7 @@
         <result column="outline" jdbcType="VARCHAR" property="outline" />
         <result column="stock" jdbcType="INTEGER" property="stock" />
         <result column="price" jdbcType="FLOAT" property="price" />
-        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="cover" jdbcType="VARCHAR" property="cover" />
         <result column="press" jdbcType="VARCHAR" property="press" />
         <result column="year" jdbcType="VARCHAR" property="year" />
         <result column="pages" jdbcType="INTEGER" property="pages" />
@@ -23,7 +23,7 @@
     </select>
 
     <select id="getBooks" resultMap="BookResultMap">
-        SELECT name,author,isbn,outline,stock,price,url
+        SELECT name,author,isbn,outline,stock,price,cover
             FROM books
     </select>
 
@@ -39,8 +39,8 @@
     </delete>
 
     <insert id="addBook" parameterType="cn.liuzhengwei.ebook.entity.Book">
-        INSERT INTO books(name, author, isbn, outline, stock, price, url, press, year, pages)
-            VALUES(#{name}, #{author}, #{ISBN}, #{outline}, #{stock}, #{price}, #{url}, #{press}, #{year}, #{pages})
+        INSERT INTO books(name, author, isbn, outline, stock, price, cover, press, year, pages)
+            VALUES(#{name}, #{author}, #{ISBN}, #{outline}, #{stock}, #{price}, #{cover}, #{press}, #{year}, #{pages})
     </insert>
 
     <update id="modifyBook" parameterType="cn.liuzhengwei.ebook.entity.Book">
@@ -51,11 +51,11 @@
             outline=#{outline},
             stock=#{stock},
             price=#{price},
-        <if test="url != null">
-            url=#{url},
+        <if test="cover != null">
+            cover=#{cover},
         </if>
-        <if test="url == null">
-            url= null,
+        <if test="cover == null">
+            cover= null,
         </if>
             press=#{press},
             year=#{year},

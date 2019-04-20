@@ -12,7 +12,7 @@ public class Book {
     private String outline;
     private Integer stock;
     private Float price;
-    private String url;
+    private String cover;
     private String press;
     private String year;
     private Integer pages;

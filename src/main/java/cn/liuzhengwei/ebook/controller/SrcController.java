@@ -21,9 +21,6 @@ import java.io.InputStream;
 
 @RestController
 public class SrcController {
-    //图片写入路径
-    private String pathRoot = "C:\\Users\\75667\\vueProject\\E-book\\public\\images\\";
-    //private String pathRoot = "/var/www/html/ebook/images/";
 
     @Autowired
     private GridFsTemplate gridFsTemplate;

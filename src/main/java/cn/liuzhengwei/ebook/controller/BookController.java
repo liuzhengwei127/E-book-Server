@@ -50,7 +50,7 @@ public class BookController {
         if (inputStream != null) {
             // 将图片写入mongodb中
             try {
-                gridFsTemplate.store(inputStream, book.getUrl());
+                gridFsTemplate.store(inputStream, book.getCover());
             }catch (Exception e) {
                 return e.getMessage();
             }
@@ -81,7 +81,7 @@ public class BookController {
         if (inputStream != null) {
             // 将图片写入mongodb中
             try {
-                gridFsTemplate.store(inputStream, book.getUrl());
+                gridFsTemplate.store(inputStream, book.getCover());
                 session.removeAttribute("file");
             }catch (Exception e) {
                 return e.getMessage();
@@ -108,8 +108,8 @@ public class BookController {
     @ResponseBody
     public String deleteBook(@RequestParam("ISBN") String ISBN) {
         Book book = bookService.getBook(ISBN);
-        if (book.getUrl() != null){
-            Query query = Query.query(Criteria.where("filename").is(book.getUrl()));
+        if (book.getCover() != null){
+            Query query = Query.query(Criteria.where("filename").is(book.getCover()));
             gridFsTemplate.delete(query);
         }
 
