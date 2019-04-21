@@ -27,7 +27,7 @@ public class SrcController {
     @Autowired
     private GridFSBucket gridFSBucket;
     @Autowired
-    MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @RequestMapping(value="/upload", method = RequestMethod.POST)
     @ResponseBody

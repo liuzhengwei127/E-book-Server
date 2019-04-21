@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 public class DateOrder {
     private int id;
     private String account;
-    @JsonFormat(pattern = "yyyy-MM-dd") private Timestamp date;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Timestamp date;
     private Integer count;
     private String bookName;
     private Float amount;

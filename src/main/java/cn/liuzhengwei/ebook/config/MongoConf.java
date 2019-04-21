@@ -12,9 +12,6 @@ import org.springframework.data.mongodb.MongoDbFactory;
 public class MongoConf {
     @Autowired
     private MongoDbFactory mongoDbFactory;
-    @Autowired
-    private GridFSBucket gridFSBucket;
-
 
     @Bean
     public GridFSBucket getGridFSBuckets() {

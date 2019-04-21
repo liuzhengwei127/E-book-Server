@@ -23,7 +23,7 @@
         SELECT *
             FROM orders
                 NATURAL JOIN (
-                                SELECT name AS bookname,author,ISBN,price,url
+                                SELECT name AS bookname,author,ISBN,price,cover
                                     FROM books
                               ) AS bookss
                 NATURAL JOIN (
@@ -36,7 +36,7 @@
         SELECT *
         FROM orders
         NATURAL JOIN (
-        SELECT name AS bookname,author,ISBN,price,url
+        SELECT name AS bookname,author,ISBN,price,cover
         FROM books
         ) AS bookss
         NATURAL JOIN (
@@ -63,7 +63,7 @@
         SELECT *
             FROM orders
                 NATURAL JOIN
-                    (SELECT name AS bookname,author,ISBN,price,url
+                    (SELECT name AS bookname,author,ISBN,price,cover
                         FROM books) AS bookss
                 NATURAL JOIN
                     (SELECT name AS username,account
