@@ -10,10 +10,10 @@ public class Order {
     private Integer id;
     private String account;
     private String userName;
-    private String bookname;
+    private String bookName;
     private String author;
     private String ISBN;
-    private String url;
+    private String cover;
     private Float price;
     private Integer count;
     private Timestamp date;
