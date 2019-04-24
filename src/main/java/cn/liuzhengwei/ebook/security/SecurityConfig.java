@@ -37,36 +37,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and().csrf().disable();
-        //http.addFilterAt(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(CAFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-//    @Bean
-//    CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-//        CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
-//        filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
-//            @Override
-//            public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
-//                System.out.println("suc");
-//                resp.setContentType("application/json;charset=utf-8");
-//                PrintWriter out = resp.getWriter();
-//                String string = "ok";
-//                out.write(new ObjectMapper().writeValueAsString(string));
-//                out.flush();
-//                out.close();
-//            }
-//        });
-//        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
-//            @Override
-//            public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException, ServletException {
-//                System.out.println("fail");
-//                resp.setContentType("application/json;charset=utf-8");
-//                PrintWriter out = resp.getWriter();
-//                String string = "ok";
-//                out.write(string);
-//                out.flush();
-//                out.close();
-//            }
-//        });
-//        filter.setAuthenticationManager(authenticationManagerBean());
-//        return filter;
-//    }
+    @Bean
+    CustomAuthenticationFilter CAFilter() throws Exception {
+        CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
+        filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
+                resp.setContentType("application/json;charset=utf-8");
+                PrintWriter out = resp.getWriter();
+                String string = "登录成功";
+                out.write(new ObjectMapper().writeValueAsString(string));
+                out.flush();
+                out.close();
+            }
+        });
+        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException, ServletException {
+                resp.setContentType("application/json;charset=utf-8");
+                PrintWriter out = resp.getWriter();
+                String string = "登录失败";
+                out.write(string);
+                out.flush();
+                out.close();
+            }
+        });
+        filter.setAuthenticationManager(authenticationManagerBean());
+        return filter;
+    }
 }

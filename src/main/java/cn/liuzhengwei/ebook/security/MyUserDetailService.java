@@ -29,7 +29,6 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("登录用户名:" + username);
-        System.out.println("username?????");
         String password = passwordEncoder.encode("123456");
 
         logger.info("数据库密码:" + password);
