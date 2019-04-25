@@ -42,7 +42,7 @@ public class UserController {
         }
     }
 
-    // 监听'/user/login',接受用户json参数 判断用户登录态并返回json
+    // 监听'/user/login', Spring Security下因认证不通过进入的页面
     @GetMapping(value = "/login")
     @ResponseBody
     public String login(){

@@ -2,10 +2,7 @@ package cn.liuzhengwei.ebook.security;
 
 import cn.liuzhengwei.ebook.entity.LoginState;
 import cn.liuzhengwei.ebook.entity.SecurityUser;
-import cn.liuzhengwei.ebook.entity.User;
 import cn.liuzhengwei.ebook.service.UserService;
-import cn.liuzhengwei.ebook.util.GetRequestJson;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user/init","/book/get", "/user/logout").permitAll()
+                .antMatchers("/user/states","/user/switch","/book/modify","/book/add","/book/delete","/order/getall","/order/dateDetail","/order/search","/upload","/delete").hasAnyRole("ADMIN")
+                .antMatchers("/user/init","/book/get","/user/code","/user/signup","/book/detail","/images/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/user/login").permitAll()
