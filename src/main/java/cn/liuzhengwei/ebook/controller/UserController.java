@@ -84,14 +84,6 @@ public class UserController {
         return loginState;
     }
 
-    // 监听'/user/logout',从session中去除用户登录态
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    @ResponseBody
-    public String logout(HttpSession session) {
-        session.removeAttribute("loginState");
-        return "登出成功";
-    }
-
     // 监听'/user/code' 发送短信验证码到手机
     @RequestMapping(value = "/code", method = RequestMethod.GET)
     @ResponseBody
