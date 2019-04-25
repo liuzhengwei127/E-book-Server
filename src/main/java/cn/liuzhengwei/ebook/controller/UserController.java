@@ -43,13 +43,10 @@ public class UserController {
     }
 
     // 监听'/user/login',接受用户json参数 判断用户登录态并返回json
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @GetMapping(value = "/login")
     @ResponseBody
-    public LoginState login(@RequestBody User user, HttpServletRequest request){
-        LoginState loginState = userservice.getLoginState(user.getAccount(),user.getPassword());
-        HttpSession session = request.getSession();
-        session.setAttribute("loginState", loginState);
-        return loginState;
+    public String login(){
+        return "请先登录";
     }
 
     // 监听'/user/switch',接受用户json参数 改变用户禁用态

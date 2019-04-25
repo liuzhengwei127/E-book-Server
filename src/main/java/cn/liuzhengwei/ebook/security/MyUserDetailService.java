@@ -1,7 +1,8 @@
 package cn.liuzhengwei.ebook.security;
 
-import cn.liuzhengwei.ebook.entity.Security;
+import cn.liuzhengwei.ebook.entity.SecurityUser;
 import cn.liuzhengwei.ebook.entity.User;
+import cn.liuzhengwei.ebook.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,27 @@ public class MyUserDetailService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info("登录用户名:" + username);
-        String password = passwordEncoder.encode("123456");
+        User user = userService.getUser(username);
+        SecurityUser securityUser = new SecurityUser();
+        if (user == null) {
+            securityUser.setEnabled(true);
+            securityUser.setUsername("wrong"+username);
+            securityUser.setPassword("wrong");
+        } else {
+            logger.info("登录用户名:" + username + "     数据库密码:" + user.getPassword());
+            String password = passwordEncoder.encode(user.getPassword());
 
-        logger.info("数据库密码:" + password);
-        Security user = new Security();
-        user.setEnabled(true);
-        user.setPassword(password);
-        user.setUsername(username);
-        user.setRoles(AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
-        return user;
+            securityUser.setEnabled(true);
+            securityUser.setUsername(username);
+            securityUser.setPassword(password);
+        }
+
+        securityUser.setRoles(AuthorityUtils.commaSeparatedStringToAuthorityList("user"));
+        return securityUser;
     }
 }
