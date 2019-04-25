@@ -37,7 +37,10 @@
 
     <!--获取所有用户权限-->
     <select id="getUserState" resultMap="UserStateResultMap">
-        SELECT account,name,allowed
-            FROM users
+        SELECT account,
+                name,
+                allowed
+        FROM users
+        WHERE isManager &lt;> true
     </select>
 </mapper>

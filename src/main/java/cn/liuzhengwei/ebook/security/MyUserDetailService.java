@@ -48,9 +48,10 @@ public class MyUserDetailService implements UserDetailsService {
             securityUser.setEnabled(true);
             securityUser.setUsername(username);
             securityUser.setPassword(password);
+            String role = user.getIsManager()? "ROLE_ADMIN" : "ROLE_USER";
+            securityUser.setRoles(AuthorityUtils.commaSeparatedStringToAuthorityList(role));
         }
 
-        securityUser.setRoles(AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
         return securityUser;
     }
 }
