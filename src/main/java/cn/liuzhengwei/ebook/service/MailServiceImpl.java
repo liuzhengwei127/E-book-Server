@@ -16,6 +16,8 @@ public class MailServiceImpl implements MailService{
     @Override
     public String sendMail(String phoneNumber) {
         User user = userService.getUser(phoneNumber);
+        if (user == null)
+            return "用户不存在";
         String password = user.getPassword();
         String mail = user.getMail();
         SimpleMailMessage message = new SimpleMailMessage();
@@ -32,6 +34,6 @@ public class MailServiceImpl implements MailService{
             return "发送失败";
         }
 
-        return "发送成功";
+        return mail;
     }
 }
