@@ -10,8 +10,8 @@ import java.util.List;
 public interface UserService {
 
     //新增一个用户
-    void create(String account, String password, String name);
-    void create(String account, String password, String name, Boolean allowed, Boolean isManager);
+    void create(String account, String password, String name, String mail);
+    void create(String account, String password, String name, Boolean allowed, Boolean isManager, String mail);
 
     //获取单个用户数据
     User getUser(String account);

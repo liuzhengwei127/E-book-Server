@@ -31,8 +31,8 @@
 
     <!--添加用户-->
     <insert id="createUser">
-        INSERT INTO users(account, password, name, allowed, isManager)
-            values(#{account}, #{password}, #{name}, #{allowed}, #{isManager})
+        INSERT INTO users(account, password, name, allowed, isManager, mail)
+            values(#{account}, #{password}, #{name}, #{allowed}, #{isManager}, #{mail})
     </insert>
 
     <!--获取所有用户权限-->

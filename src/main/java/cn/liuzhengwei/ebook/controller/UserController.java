@@ -6,9 +6,10 @@ import cn.liuzhengwei.ebook.entity.UserState;
 import cn.liuzhengwei.ebook.service.UserService;
 import cn.liuzhengwei.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class UserController {
                 existing = new User();
                 return "账户已存在";
             } else {
-                userservice.create(user.getAccount(),user.getPassword(),user.getName());
+                userservice.create(user.getAccount(),user.getPassword(),user.getName(), user.getMail());
                 return "注册成功";
             }
         } else {

@@ -22,12 +22,12 @@ public class UserServiceImpl implements UserService {
 
     //新增一个用户
     @Override
-    public void create(String account, String password, String name) {
-        userMapper.createUser(account, password, name, true, false);
+    public void create(String account, String password, String name, String mail) {
+        userMapper.createUser(account, password, name, true, false, mail);
     }
     @Override
-    public void create(String account, String password, String name, Boolean allowed, Boolean isManager) {
-        userMapper.createUser(account, password, name, allowed, isManager);
+    public void create(String account, String password, String name, Boolean allowed, Boolean isManager, String mail) {
+        userMapper.createUser(account, password, name, allowed, isManager, mail);
     }
 
     //获取单个用户数据

@@ -11,4 +11,5 @@ public class User {
     private String code;
     private Boolean allowed;
     private Boolean isManager;
+    private String mail;
 }
