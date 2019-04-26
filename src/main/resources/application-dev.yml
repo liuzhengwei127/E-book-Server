@@ -10,6 +10,15 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/ebook
+  mail:
+    host: smtp.qq.com
+    username: 756670011@qq.com
+    password: ncyeszkogyfebbbe
+    properties.mail.smtp:
+      auth: true
+      starttls:
+        enable: true
+        required: true
 
 mybatis:
   mapper-locations: classpath:/mybatis/mapping/*Mapper.xml
