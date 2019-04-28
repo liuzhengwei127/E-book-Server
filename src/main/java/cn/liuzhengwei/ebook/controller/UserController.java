@@ -31,7 +31,7 @@ public class UserController {
 
         if (code != null && code.equals(user.getCode()) && phoneNumber.equals(user.getAccount())) {
             if (userservice.ifExist(user.getAccount(),user.getMail())){
-                return "账户已存在";
+                return "邮箱已被注册";
             } else {
                 userservice.create(user.getAccount(),user.getPassword(),user.getName(), user.getMail());
                 return "注册成功";
@@ -87,6 +87,8 @@ public class UserController {
     @RequestMapping(value = "/code", method = RequestMethod.GET)
     @ResponseBody
     public String code(@RequestParam("phoneNumber")String phoneNumber, HttpSession session) {
+        if (userservice.ifExist(phoneNumber, null))
+            return "手机号已被注册";
         try {
             String code = Message.sendSMS(phoneNumber);
             if (code == "发送失败"){

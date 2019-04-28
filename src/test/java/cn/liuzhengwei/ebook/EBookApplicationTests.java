@@ -15,12 +15,5 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EBookApplicationTests {
-    @Autowired
-    private UserService userService;
-
-    @Test
-    public void sendMail() {
-        Assert.assertEquals(true, userService.ifExist("13687385989","756670011@qq.com"));
-    }
 
 }
