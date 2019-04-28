@@ -21,15 +21,17 @@
 
     <sql id="getOrders">
         SELECT *
-            FROM orders
-                NATURAL JOIN (
-                                SELECT name AS bookname,author,ISBN,price,cover
-                                    FROM books
-                              ) AS bookss
-                NATURAL JOIN (
-                                SELECT name AS username,account
-                                    FROM users
-                              ) AS users
+        FROM orders
+            NATURAL JOIN (
+                SELECT  name AS bookname,
+                        author,ISBN,
+                        price,
+                        cover
+                FROM books ) AS bookss
+            NATURAL JOIN (
+                SELECT  name AS username,
+                        account
+                FROM users ) AS users
     </sql>
 
     <sql id="dateFilter">
@@ -48,7 +50,7 @@
     <!--获取所有订单-->
     <select id="getAllOrders" resultMap="OrderResultMap">
         <include refid="getOrders"></include>
-            ORDER BY id
+        ORDER BY id desc
     </select>
 
     <!--订单搜索-->
@@ -60,21 +62,9 @@
 
     <!--获取指定用户订单-->
     <select id="getOrder" resultMap="OrderResultMap">
-        SELECT *
-        FROM orders
-            NATURAL JOIN (
-                SELECT  name AS bookname,
-                        author,
-                        ISBN,
-                        price,
-                        cover
-                FROM books) AS bookss
-            NATURAL JOIN (
-                SELECT  name AS username,
-                        account
-                FROM users) AS users
+        <include refid="getOrders"></include>
         WHERE account = #{account}
-        ORDER BY id
+        ORDER BY id desc
     </select>
 
     <!--最大订单id-->
