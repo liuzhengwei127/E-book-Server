@@ -30,9 +30,7 @@ public class UserController {
         String phoneNumber = (String)session.getAttribute("phoneNumber");
 
         if (code != null && code.equals(user.getCode()) && phoneNumber.equals(user.getAccount())) {
-            User existing = userservice.getUser(user.getAccount());
-            if (existing != null){
-                existing = new User();
+            if (userservice.ifExist(user.getAccount(),user.getMail())){
                 return "账户已存在";
             } else {
                 userservice.create(user.getAccount(),user.getPassword(),user.getName(), user.getMail());

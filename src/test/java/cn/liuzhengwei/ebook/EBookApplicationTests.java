@@ -1,5 +1,7 @@
 package cn.liuzhengwei.ebook;
 
+import cn.liuzhengwei.ebook.service.UserService;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,17 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class EBookApplicationTests {
     @Autowired
-    private JavaMailSender mailSender;
+    private UserService userService;
 
     @Test
     public void sendMail() {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("756670011@qq.com");
-        message.setTo("756670011@qq.com");
-        message.setSubject("主题：简单邮件");
-        message.setText("测试邮件内容");
-
-        mailSender.send(message);
+        Assert.assertEquals(true, userService.ifExist("13687385989","756670011@qq.com"));
     }
 
 }

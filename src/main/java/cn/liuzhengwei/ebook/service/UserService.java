@@ -27,4 +27,7 @@ public interface UserService {
 
     //获得所有用户状态
     List<UserState> getUserStates();
+
+    //判断用户是否存在
+    Boolean ifExist(String account, String mail);
 }

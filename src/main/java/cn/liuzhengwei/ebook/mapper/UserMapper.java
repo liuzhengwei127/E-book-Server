@@ -13,4 +13,5 @@ public interface UserMapper {
     int changeUser(Boolean allowed, String account);
     void createUser(String account, String password, String name, Boolean allowed, Boolean isManager, String mail);
     List<UserState> getUserState();
+    User getUserWithMail(String mail);
 }

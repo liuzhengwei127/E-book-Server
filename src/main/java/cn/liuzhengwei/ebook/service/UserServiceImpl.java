@@ -96,4 +96,20 @@ public class UserServiceImpl implements UserService {
 
         return userStates;
     }
+
+    @Override
+    //判断用户是否存在
+    public Boolean ifExist(String account, String mail){
+        User user = userMapper.getUser(account);
+        if (user != null) {
+            return true;
+        } else {
+            user = userMapper.getUserWithMail(mail);
+            if (user != null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }

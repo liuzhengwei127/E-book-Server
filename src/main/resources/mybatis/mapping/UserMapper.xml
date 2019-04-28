@@ -43,4 +43,11 @@
         FROM users
         WHERE isManager &lt;> true
     </select>
+
+    <!--根据邮箱获取用户-->
+    <select id="getUserWithMail" resultType="cn.liuzhengwei.ebook.entity.User">
+        SELECT *
+        FROM users
+        WHERE mail = #{mail}
+    </select>
 </mapper>
