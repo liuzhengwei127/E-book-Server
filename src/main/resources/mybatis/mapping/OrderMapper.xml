@@ -61,15 +61,20 @@
     <!--获取指定用户订单-->
     <select id="getOrder" resultMap="OrderResultMap">
         SELECT *
-            FROM orders
-                NATURAL JOIN
-                    (SELECT name AS bookname,author,ISBN,price,cover
-                        FROM books) AS bookss
-                NATURAL JOIN
-                    (SELECT name AS username,account
-                        FROM users) AS users
-            WHERE account = #{account}
-            ORDER BY id
+        FROM orders
+            NATURAL JOIN (
+                SELECT  name AS bookname,
+                        author,
+                        ISBN,
+                        price,
+                        cover
+                FROM books) AS bookss
+            NATURAL JOIN (
+                SELECT  name AS username,
+                        account
+                FROM users) AS users
+        WHERE account = #{account}
+        ORDER BY id
     </select>
 
     <!--最大订单id-->
