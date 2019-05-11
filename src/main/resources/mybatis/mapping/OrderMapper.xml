@@ -99,8 +99,11 @@
     <insert id="addOrder" parameterType="cn.liuzhengwei.ebook.entity.Order">
         INSERT INTO orders(account, date)
             values(#{account}, #{date});
+    </insert>
+
+    <insert id="addOrderItem" parameterType="cn.liuzhengwei.ebook.entity.Order">
         INSERT INTO orderitems(orderid, isbn, count)
-            SELECT max(id),#{ISBN},#{count} FROM orders;
+        SELECT #{id},#{ISBN},#{count} FROM orders;
     </insert>
 
     <!--时间筛选订单-->
