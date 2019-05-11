@@ -19,9 +19,18 @@
         <result column="amount" jdbcType="FLOAT" property="amount"/>
     </resultMap>
 
+    <sql id="tmpOrder">
+        (
+        SELECT orderid as id, account, isbn, count, date
+        FROM orders
+                JOIN orderitems
+                ON orders.id = orderitems.orderid
+        ) AS tmpOrder
+    </sql>
+
     <sql id="getOrders">
         SELECT *
-        FROM orders
+        FROM <include refid="tmpOrder"></include>
             NATURAL JOIN (
                 SELECT  name AS bookname,
                         author,ISBN,
@@ -36,7 +45,7 @@
 
     <sql id="dateFilter">
         SELECT *
-        FROM orders
+        FROM <include refid="tmpOrder"></include>
         NATURAL JOIN (
         SELECT name AS bookname,author,ISBN,price,cover
         FROM books
@@ -88,8 +97,10 @@
 
     <!--添加订单-->
     <insert id="addOrder" parameterType="cn.liuzhengwei.ebook.entity.Order">
-        INSERT INTO orders(id, account, isbn, count, date)
-            values(#{id}, #{account}, #{ISBN}, #{count}, #{date})
+        INSERT INTO orders(account, date)
+            values(#{account}, #{date});
+        INSERT INTO orderitems(orderid, isbn, count)
+            SELECT max(id),#{ISBN},#{count} FROM orders;
     </insert>
 
     <!--时间筛选订单-->
@@ -97,7 +108,7 @@
         SELECT date, sum(count) as count, sum(amount) as amount
             FROM (
                     SELECT DATE_FORMAT(date, "%Y-%m-%d") as date, count, count*price as amount
-                        FROM orders NATURAL JOIN books
+                        FROM <include refid="tmpOrder"></include> NATURAL JOIN books
                         WHERE date >= #{beginDate} and date &lt;= #{endDate}
                         <if test="account != 'manager'">and account = #{account}</if>
                     ) AS dateOrder
@@ -106,7 +117,7 @@
 
     <select id="dateDetailFilter" resultMap="dateOrderResultMap">
         SELECT  id, account, DATE_FORMAT(date, "%Y-%m-%d") as date, count, books.name as bookname, count*price as amount
-            FROM orders NATURAL JOIN books
+            FROM <include refid="tmpOrder"></include> NATURAL JOIN books
             WHERE date >= #{beginDate} and date &lt;= #{endDate}
         <if test="account != 'manager'">and account = #{account}</if>
             ORDER BY account, date
