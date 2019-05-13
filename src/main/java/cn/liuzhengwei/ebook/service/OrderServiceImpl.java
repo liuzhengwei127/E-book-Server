@@ -22,18 +22,19 @@ public class OrderServiceImpl implements OrderService{
     // 添加订单
     @Override
     public void addOrder(List<Order> orders) {
-        int id;
-        if (orders.size() > 0)
-            orderMapper.addOrder(orders.get(0));
         try {
-            id = orderMapper.maxID();
-            for (int i=0;i<orders.size();i++) {
-                int stock = orderMapper.selectStock(orders.get(i).getISBN());
-                stock = stock - orders.get(i).getCount();
-                if (stock >= 0) {
-                    orders.get(i).setId(id);
-                    orderMapper.addOrderItem(orders.get(i));
-                    orderMapper.setStock(orders.get(i).getISBN(), stock);
+            int id;
+            if (orders.size() > 0) {
+                orderMapper.addOrder(orders.get(0));
+                id = orderMapper.maxID();
+                for (int i = 0; i < orders.size(); i++) {
+                    int stock = orderMapper.selectStock(orders.get(i).getISBN());
+                    stock = stock - orders.get(i).getCount();
+                    if (stock >= 0) {
+                        orders.get(i).setId(id);
+                        orderMapper.addOrderItem(orders.get(i));
+                        orderMapper.setStock(orders.get(i).getISBN(), stock);
+                    }
                 }
             }
         } catch(Exception e){

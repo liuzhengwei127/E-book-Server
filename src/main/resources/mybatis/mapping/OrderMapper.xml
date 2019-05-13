@@ -103,7 +103,7 @@
 
     <insert id="addOrderItem" parameterType="cn.liuzhengwei.ebook.entity.Order">
         INSERT INTO orderitems(orderid, isbn, count)
-        SELECT #{id},#{ISBN},#{count} FROM orders;
+            values(#{id},#{ISBN},#{count});
     </insert>
 
     <!--时间筛选订单-->
