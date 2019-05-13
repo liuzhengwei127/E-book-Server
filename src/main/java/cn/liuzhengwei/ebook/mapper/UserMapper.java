@@ -1,7 +1,6 @@
 package cn.liuzhengwei.ebook.mapper;
 
 import cn.liuzhengwei.ebook.entity.User;
-import cn.liuzhengwei.ebook.entity.UserState;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +11,6 @@ public interface UserMapper {
     User getLoginState(String account, String password);
     int changeUser(Boolean allowed, String account);
     void createUser(String account, String password, String name, Boolean allowed, Boolean isManager, String mail);
-    List<UserState> getUserState();
+    List<User> getUserState();
     User getUserWithMail(String mail);
 }

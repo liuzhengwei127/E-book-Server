@@ -50,25 +50,24 @@ public class OrderController {
     // 监听'/order/getall' 返回所有用户的订单数据
     @RequestMapping(value = "/getall", method = RequestMethod.GET)
     @ResponseBody
-    public OrderList getAllOrders() {
+    public List<Orders> getAllOrders() {
         List<Order> orders_raw = orderService.getAllOrders();
-        List<List<Order>> orders = new LinkedList<>();
-        List<Order> list = new LinkedList<>();
+        List<Orders> result = new LinkedList<>();
+        Orders list = new Orders();
+        list.setOrderItems(new LinkedList<>());
         int id = orders_raw.get(0).getId().intValue();
         for (int i=0;i<orders_raw.size();i++){
             if (orders_raw.get(i).getId().intValue() != id){
-                orders.add(list);
-                list = new LinkedList<>();
-                list.add(orders_raw.get(i));
+                result.add(list);
+                list = new Orders();
+                list.setOrderItems(new LinkedList<>());
+                list.getOrderItems().add(orders_raw.get(i));
                 id = orders_raw.get(i).getId();
             } else {
-                list.add(orders_raw.get(i));
+                list.getOrderItems().add(orders_raw.get(i));
             }
         }
-        orders.add(list);
-
-        OrderList result = new OrderList();
-        result.setOrders(orders);
+        result.add(list);
         return result;
     }
 
@@ -77,16 +76,16 @@ public class OrderController {
     @ResponseBody
     public List<Order> addOrder(@RequestBody Orders orders) {
 
-        int size = orders.getOrders().size();
+        int size = orders.getOrderItems().size();
         for (int i=0;i<size;i++) {
             Date date= new Date();
             Timestamp timestamp = new Timestamp(date.getTime());
-            orders.getOrders().get(i).setDate(timestamp);
+            orders.getOrderItems().get(i).setDate(timestamp);
         }
 
-        orderService.addOrder(orders.getOrders());
+        orderService.addOrder(orders.getOrderItems());
 
-        List<Order> result = orderService.getOrder(orders.getOrders().get(0).getAccount());
+        List<Order> result = orderService.getOrder(orders.getOrderItems().get(0).getAccount());
 
         return result;
     }
@@ -95,28 +94,28 @@ public class OrderController {
     // 监听'/order/search' 接受一个参数 返回过滤后的订单数据
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    public OrderList searchOrders(@RequestParam("filter") String filter) {
+    public List<Orders> searchOrders(@RequestParam("filter") String filter) {
         List<Order> orders_raw = orderService.searchOrder(filter);
-        List<List<Order>> orders = new LinkedList<>();
+        List<Orders> result = new LinkedList<>();
 
         if (orders_raw.size() > 0) {
-            List<Order> list = new LinkedList<>();
+            Orders list = new Orders();
+            list.setOrderItems(new LinkedList<>());
             int id = orders_raw.get(0).getId().intValue();
             for (int i=0;i<orders_raw.size();i++){
                 if (orders_raw.get(i).getId().intValue() != id){
-                    orders.add(list);
-                    list = new LinkedList<>();
-                    list.add(orders_raw.get(i));
+                    result.add(list);
+                    list = new Orders();
+                    list.setOrderItems(new LinkedList<>());
+                    list.getOrderItems().add(orders_raw.get(i));
                     id = orders_raw.get(i).getId();
                 } else {
-                    list.add(orders_raw.get(i));
+                    list.getOrderItems().add(orders_raw.get(i));
                 }
             }
-            orders.add(list);
+            result.add(list);
         }
 
-        OrderList result = new OrderList();
-        result.setOrders(orders);
         return result;
     }
 

@@ -2,7 +2,6 @@ package cn.liuzhengwei.ebook.service;
 
 import cn.liuzhengwei.ebook.entity.LoginState;
 import cn.liuzhengwei.ebook.entity.User;
-import cn.liuzhengwei.ebook.entity.UserState;
 import cn.liuzhengwei.ebook.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -90,10 +89,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     //获得所有用户状态
-    public List<UserState> getUserStates() {
-        List<UserState> userStates;
+    public List<User> getUserStates() {
+        List<User> userStates;
         userStates = userMapper.getUserState();
-
         return userStates;
     }
 

@@ -2,12 +2,9 @@ package cn.liuzhengwei.ebook.controller;
 
 import cn.liuzhengwei.ebook.entity.LoginState;
 import cn.liuzhengwei.ebook.entity.User;
-import cn.liuzhengwei.ebook.entity.UserState;
 import cn.liuzhengwei.ebook.service.UserService;
 import cn.liuzhengwei.ebook.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -31,7 +28,7 @@ public class UserController {
 
         if (code != null && code.equals(user.getCode()) && phoneNumber.equals(user.getAccount())) {
             if (userservice.ifExist(user.getAccount(),user.getMail())){
-                return "邮箱已被注册";
+                return "u";
             } else {
                 userservice.create(user.getAccount(),user.getPassword(),user.getName(), user.getMail());
                 return "注册成功";
@@ -67,8 +64,8 @@ public class UserController {
     // 监听'/user/states',获取所有用户的权限
     @RequestMapping(value = "/states", method = RequestMethod.GET)
     @ResponseBody
-    public List<UserState> getUserStates() {
-        List<UserState> userStates = userservice.getUserStates();
+    public List<User> getUserStates() {
+        List<User> userStates = userservice.getUserStates();
         return userStates;
     }
 
