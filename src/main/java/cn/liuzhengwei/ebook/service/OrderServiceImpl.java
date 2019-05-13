@@ -66,15 +66,15 @@ public class OrderServiceImpl implements OrderService{
 
     // 筛选指定日期内指定用户的订单
     @Override
-    public List<DateOrder> dateFilter(String beginDate, String endDate, String account) {
-        List<DateOrder> orders= orderMapper.dateFilter(beginDate,endDate,account);
+    public List<Order> dateFilter(String beginDate, String endDate, String account) {
+        List<Order> orders= orderMapper.dateFilter(beginDate,endDate,account);
         return orders;
     }
 
     // 筛选指定日期内指定用户的详细订单
     @Override
-    public List<DateOrder> dateDetailFilter(String beginDate, String endDate, String account) {
-        List<DateOrder> orders= orderMapper.dateDetailFilter(beginDate,endDate,account);
+    public List<Order> dateDetailFilter(String beginDate, String endDate, String account) {
+        List<Order> orders= orderMapper.dateDetailFilter(beginDate,endDate,account);
         return orders;
     }
 }

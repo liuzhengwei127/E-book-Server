@@ -2,23 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.liuzhengwei.ebook.mapper.OrderMapper">
 
-    <resultMap id="OrderResultMap" type="cn.liuzhengwei.ebook.entity.Order">
-        <result column="id" jdbcType="INTEGER" property="id" />
-        <result column="account" jdbcType="VARCHAR" property="account" />
-        <result column="ISBN" jdbcType="VARCHAR" property="ISBN" />
-        <result column="count" jdbcType="SMALLINT" property="count" />
-        <result column="date" jdbcType="TIMESTAMP" property="date" />
-    </resultMap>
-
-    <resultMap id="dateOrderResultMap" type="cn.liuzhengwei.ebook.entity.DateOrder">
-        <result column="id" jdbcType="INTEGER" property="id" />
-        <result column="account" jdbcType="VARCHAR" property="account" />
-        <result column="date" jdbcType="TIMESTAMP" property="date" />
-        <result column="count" jdbcType="SMALLINT" property="count" />
-        <result column="bookName" jdbcType="VARCHAR" property="bookName" />
-        <result column="amount" jdbcType="FLOAT" property="amount"/>
-    </resultMap>
-
     <sql id="tmpOrder">
         (
         SELECT orderid as id, account, isbn, count, date
@@ -57,20 +40,20 @@
     </sql>
 
     <!--获取所有订单-->
-    <select id="getAllOrders" resultMap="OrderResultMap">
+    <select id="getAllOrders" resultType="cn.liuzhengwei.ebook.entity.Order">
         <include refid="getOrders"></include>
         ORDER BY id desc
     </select>
 
     <!--订单搜索-->
-    <select id="searchOrder" resultMap="OrderResultMap">
+    <select id="searchOrder" resultType="cn.liuzhengwei.ebook.entity.Order">
         <include refid="getOrders"></include>
             WHERE username like #{filter}
             ORDER BY id
     </select>
 
     <!--获取指定用户订单-->
-    <select id="getOrder" resultMap="OrderResultMap">
+    <select id="getOrder" resultType="cn.liuzhengwei.ebook.entity.Order">
         <include refid="getOrders"></include>
         WHERE account = #{account}
         ORDER BY id desc
@@ -107,7 +90,7 @@
     </insert>
 
     <!--时间筛选订单-->
-    <select id="dateFilter" resultMap="dateOrderResultMap">
+    <select id="dateFilter" resultType="cn.liuzhengwei.ebook.entity.Order">
         SELECT date, sum(count) as count, sum(amount) as amount
             FROM (
                     SELECT DATE_FORMAT(date, "%Y-%m-%d") as date, count, count*price as amount
@@ -118,7 +101,7 @@
             GROUP BY date
     </select>
 
-    <select id="dateDetailFilter" resultMap="dateOrderResultMap">
+    <select id="dateDetailFilter" resultType="cn.liuzhengwei.ebook.entity.Order">
         SELECT  id, account, DATE_FORMAT(date, "%Y-%m-%d") as date, count, books.name as bookname, count*price as amount
             FROM <include refid="tmpOrder"></include> NATURAL JOIN books
             WHERE date >= #{beginDate} and date &lt;= #{endDate}

@@ -20,8 +20,8 @@ public interface OrderService {
     List<Order> searchOrder(String filter);
 
     // 筛选指定日期内指定用户的订单
-    List<DateOrder> dateFilter(String beginDate, String endDate, String account);
+    List<Order> dateFilter(String beginDate, String endDate, String account);
 
     // 筛选指定日期内指定用户的详细订单
-    List<DateOrder> dateDetailFilter(String beginDate, String endDate, String account);
+    List<Order> dateDetailFilter(String beginDate, String endDate, String account);
 }

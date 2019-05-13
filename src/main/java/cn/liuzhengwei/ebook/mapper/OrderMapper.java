@@ -16,6 +16,6 @@ public interface OrderMapper {
     int selectStock(String ISBN);
     void addOrder(Order order);
     void addOrderItem(Order order);
-    List<DateOrder> dateFilter(String beginDate, String endDate, String account);
-    List<DateOrder> dateDetailFilter(String beginDate, String endDate, String account);
+    List<Order> dateFilter(String beginDate, String endDate, String account);
+    List<Order> dateDetailFilter(String beginDate, String endDate, String account);
 }

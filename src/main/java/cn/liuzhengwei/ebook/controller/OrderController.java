@@ -122,7 +122,7 @@ public class OrderController {
     // 监听'/order/date' 返回日期筛选后的订单数据
     @RequestMapping(value = "/date", method = RequestMethod.GET)
     @ResponseBody
-    public List<DateOrder> dateFilter(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
+    public List<Order> dateFilter(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
         // 将结束日期+1 便于sql操作
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -142,7 +142,7 @@ public class OrderController {
     // 监听'/order/dateDetail' 返回日期筛选后的详细订单数据
     @RequestMapping(value = "/dateDetail", method = RequestMethod.GET)
     @ResponseBody
-    public List<DateOrder> dateDetailFilter(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
+    public List<Order> dateDetailFilter(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate, @RequestParam("account") String account) {
         // 将结束日期+1 便于sql操作
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
