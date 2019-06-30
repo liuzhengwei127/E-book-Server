@@ -12,10 +12,6 @@ import java.util.List;
 //连接数据库User表的的具体实现类
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     @Autowired
     private UserMapper userMapper;
 

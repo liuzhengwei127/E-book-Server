@@ -1,21 +1,15 @@
 package cn.liuzhengwei.ebook.service;
 
-import cn.liuzhengwei.ebook.entity.DateOrder;
 import cn.liuzhengwei.ebook.entity.Order;
 import cn.liuzhengwei.ebook.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService{
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     @Autowired
     private OrderMapper orderMapper;
 
